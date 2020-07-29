@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria: Cadastro de Endereço</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container-flex">
+		<div class="d-flex justify-content-center m-4">
+			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
+				<h4 class="my-4">Seu endereço:</h4>
+				<form action="/endereco/cadastrar" method="post" th:object="${endereco}">
+					<div class="row">
+						<div class="form-group col-md-9 col-xs-9">
+							<input type="text" class="form-control" th:field="*{logradouro}" maxlength="50" placeholder="Endereço: Rua, Avenida, Travessa..." autofocus/>
+							<p class="text-danger" th:if="${#fields.hasErrors('logradouro')}" th:errors="*{logradouro}"></p>
+						</div>
+						<div class="form-group col-md-3 col-xs-3">
+							<input type="text" class="form-control" th:field="*{numero}" placeholder="n°"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-4 col-sm-12">
+							<input type="text" class="form-control" th:field="*{complemento}" maxlength="10" placeholder="Complemento"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}"></p>
+						</div>
+						<div class="form-group col-md-8 col-sm-12">
+							<input list="bairros" class="form-control" th:field="*{bairro}" maxlength="30" placeholder="Bairro">
+							<datalist id="bairros">
+								<option value="Alto Boa Vista">Alto Boa Vista</option>
+								<option value="Alto São Francisco">Alto São Francisco</option>
+								<option value="Baviera">Baviera</option>
+								<option value="Campo Novo">Campo Novo</option>
+								<option value="Campo Velho">Campo Velho</option>
+								<option value="Carrascal">Carrascal</option>
+								<option value="Cedro">Cedro</option>
+								<option value="Centro">Centro</option>
+								<option value="Cohab">Cohab</option>
+								<option value="Combate">Combate</option>
+								<option value="Curicaca">Curicaca</option>
+								<option value="Herval">Herval</option>
+								<option value="Irajá">Irajá</option>
+								<option value="Jardim dos Monólitos">Jardim dos Monólitos</option>
+								<option value="Monte Alegre">Monte Alegre</option>
+								<option value="Nova Jerusalém">Nova Jerusalém</option>
+								<option value="Planalto Renascer">Planalto Renascer</option>
+								<option value="Planalto Universitário">Planalto Universitário</option>
+								<option value="Putiú">Putiú</option>
+								<option value="São João">São João</option>
+								<option value="Triângulo">Triângulo</option>
+							</datalist>
+							<p class="text-danger" th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-7 col-sm-12">
+							<input type="text" class="form-control" th:field="*{cidade}" maxlength="30" readonly/>
+							<p class="text-danger" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"></p>
+						</div>
+						<div class="form-group col-md-5 col-sm-12">
+							<input type="text" class="form-control" th:field="*{cep}" minlength="9" maxlength="9" placeholder="CEP"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="text" class="form-control" th:field="*{referencia}" maxlength="60" placeholder="Referência"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('referencia')}" th:errors="*{referencia}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="submit" value="Concluir cadastro" class="btn btn-success"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+</body>
+</html>

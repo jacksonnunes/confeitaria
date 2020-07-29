@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria: Cadastro de Usuário</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container-flex">
+		<div class="d-flex justify-content-center m-4">
+			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
+				<h4>Cadastre-se:</h4>
+				<form action="/usuario/sign-in" method="post" th:object="${usuario}">
+					<div class="row">
+						<div class="form-group col-md-6 col-sm-12">
+							<input type="text" class="form-control" th:field="*{nome}" placeholder="Nome"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+						</div>
+						<div class="form-group col-md-6 col-sm-12">
+							<input type="text" class="form-control" th:field="*{sobrenome}" placeholder="Sobrenome"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6 col-sm-12">
+							<input type="text" class="form-control" th:field="*{apelido}" placeholder="Gostaria de ser chamado(a) por:"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('apelido')}" th:errors="*{apelido}"></p>
+						</div>
+						<div class="form-group col-md-6 col-sm-12">
+							<input type="text" class="form-control" th:field="*{telefone}" placeholder="Telefone"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6 col-sm-12">
+							<input type="text" class="form-control" th:field="*{email}" placeholder="Email"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+						</div>
+						<div class="form-group col-md-6 col-sm-12">
+							<input type="password" class="form-control" th:field="*{senha}" placeholder="Senha"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></p>
+						</div>
+					</div>
+					<input type="hidden" th:field="*{role}"/>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="submit" value="Cadastre-se" class="btn btn-success"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+</body>
+</html>

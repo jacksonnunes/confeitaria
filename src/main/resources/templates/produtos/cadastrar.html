@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria: Cadastro de Produtos</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container-flex">
+		<div class="d-flex justify-content-center m-4">
+			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
+				<h4 class="my-4">Cadastro de produtos</h4>
+				<form action="/produtos/cadastrar" method="post" th:object="${produto}">
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="text" class="form-control" th:field="*{nome}" maxlength="30" placeholder="Nome do produto" autofocus/>
+							<p class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="text" class="form-control" th:field="*{descricao}" maxlength="100" placeholder="Descrição"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6 col-sm-12">
+							<label for="quantidade">Quantidade em estoque:</label>
+							<input type="text" id="quantidade" class="form-control" th:field="*{quantidadeDisponivel}" placeholder="Quantidade no estoque"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('quantidadeDisponivel')}" th:errors="*{quantidadeDisponivel}"></p>
+						</div>
+						<div class="form-group col-md-6 col-sm-12">
+							<label for="valor">Valor:</label>
+							<input type="text" id="valor" class="form-control" th:field="*{valor}" placeholder="Valor"/>
+							<p class="text-danger" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></p>
+						</div>
+					</div>
+<!-- 					<div class="row"> -->
+<!-- 						<div class="form-group col-md-12"> -->
+<!-- 							<label for="imagem">Foto do produto:</label> -->
+<!-- 							<input type="file" name="file" id="imagem"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="submit" value="Salvar" class="btn btn-success"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+</body>
+</html>

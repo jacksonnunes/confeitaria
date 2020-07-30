@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +26,16 @@ public class EnderecoController {
 	private RepositorioUsuario repositorioUsuario;
 	@Autowired
 	private RepositorioEndereco repositorioEndereco;
+	
+	@GetMapping("/listar")
+	public ModelAndView listar() {
+		ModelAndView resultado = new ModelAndView("enderecos/listar");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Usuario usuario = repositorioUsuario.findByEmail(username);
+		resultado.addObject("enderecos", repositorioEndereco.findByUsuario(usuario));
+		return resultado;
+	}
 	
 	@GetMapping("/cadastrar")
 	public ModelAndView cadastrar() {
@@ -48,6 +59,27 @@ public class EnderecoController {
 		endereco.setUsuario(usuario);
 		repositorioEndereco.save(endereco);
 		return "redirect:/";
+	}
+	
+	@GetMapping("/alterar/{id}")
+	public ModelAndView alterar(@PathVariable Long id) {
+		ModelAndView resultado = new ModelAndView("enderecos/alterar");
+		resultado.addObject("endereco", repositorioEndereco.getOne(id));
+		return resultado;
+	}
+	
+	@PostMapping("/alterar")
+	public String alterar(@Valid Endereco endereco, BindingResult result) {
+		if(result.hasErrors())
+			return "enderecos/alterar";
+		repositorioEndereco.save(endereco);
+		return "redirect:/endereco/listar";
+	}
+	
+	@GetMapping("/excluir/{id}")
+	public String excluir(@PathVariable Long id) {
+		repositorioEndereco.deleteById(id);
+		return "redirect:/endereco/listar";
 	}
 
 }

@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -53,8 +52,8 @@ public class Usuario {
 	@NotEmpty(message = "Escolha uma senha.")
 	private String senha;
 	
-	@OneToOne(mappedBy = "usuario")
-	private Endereco endereco;
+	@OneToMany(mappedBy = "usuario")
+	private List<Endereco> enderecos;
 	
 	@Column(name = "usr_telefone", length = 14, nullable = false)
 	@Length(max = 14, message = "O número de telefone deve conter, no máximo, 14 caracteres.")
@@ -69,12 +68,19 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario")
 	private List<Pedido> pedidos;
 	
+	@OneToMany(mappedBy = "usuario")
+	private List<ItemPedido> itemPedidos;
+	
 	public Usuario() {
 		this.role = new Role();
 	}
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -117,12 +123,12 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	public String getTelefone() {
@@ -147,6 +153,14 @@ public class Usuario {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public List<ItemPedido> getItemPedidos() {
+		return itemPedidos;
+	}
+
+	public void setItemPedidos(List<ItemPedido> itemPedidos) {
+		this.itemPedidos = itemPedidos;
 	}
 
 }

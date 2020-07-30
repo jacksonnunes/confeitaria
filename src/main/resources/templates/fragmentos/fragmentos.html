@@ -27,7 +27,7 @@
 					</a>
 				</li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/produtos/lista}">Menu</a></li>
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false"> Pedidos </a>
@@ -38,13 +38,13 @@
 						<a class="dropdown-item" href="#">Something else here</a>
 					</div>
 				</li>
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false"> Configurações </a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown2">
 						<a class="dropdown-item" href="#">Conta</a>
-						<a class="dropdown-item" th:href="@{/endereco/cadastrar}">Endereços</a>
+						<a class="dropdown-item" th:href="@{/endereco/listar}">Endereços</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown" th:if="${#authorization.expression('hasAuthority(''ADMIN_MASTER'')')}">
@@ -63,6 +63,9 @@
 					</div>
 				</li>
 			</ul>
+			<div th:if="${#authorization.expression('!isAuthenticated()')}" class="form-inline my-2 my-lg-0">
+				<a th:href="@{/login}" class="btn btn-success">Entrar</a>
+			</div>
 			<div th:if="${#authorization.expression('isAuthenticated()')}" class="form-inline my-2 my-lg-0 mx-3">
 				<span th:text="'Olá, ' + ${#authentication.getPrincipal().getUsername()}"></span>
 			</div>

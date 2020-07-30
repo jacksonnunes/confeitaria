@@ -29,16 +29,25 @@ public class ItemPedido {
 	private int quantidade;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_ped")
+	@JoinColumn(name = "id_ped", nullable = true)
 	private Pedido pedido;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_usr")
+	private Usuario usuario;
 	
 	public ItemPedido() {
 		this.produto = new Produto();
-		this.pedido = new Pedido();
+		this.quantidade = 1;
+		this.usuario = new Usuario();
 	}
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Produto getProduto() {
@@ -63,6 +72,14 @@ public class ItemPedido {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

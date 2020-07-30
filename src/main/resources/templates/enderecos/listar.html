@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Rivoli Confeitaria: Cadastro de Produtos</title>
+<title>Rivoli Confeitaria: Endereços</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -10,20 +10,21 @@
 </head>
 <body>
 	<div th:replace="fragmentos/fragmentos :: header"></div>
+	
+	<div class="m-3">
+		<a class="btn btn-info" th:href="@{/endereco/cadastrar}">Cadastrar novo endereço</a>
+	</div>
 
 	<div class="container-flex align-items-start">
 		<div class="d-flex flex-wrap justify-content-center m-4">
-			<div class="col-md-5 col-sm-12 rounded shadow m-2" th:each="produto: ${produtos}">
-				<img class="float-left m-3" style="width: 150px; height: 150px; border: 1px, solid, #000000" scr="/imagens/bolo-caseiro=home-wp.jpg"/>
-				<h5 class="my-2" th:text="${produto.nome}"></h5>
-				<p class="text-info" th:text="(${produto.descricao} != '' ? ${produto.descricao} : '<no description>')"></p>
-				<div class="mx-auto col-md-12">
-					<p class="float-left"  th:text="'Qtde: ' + ${produto.quantidadeDisponivel}"></p>
-					<h5 class="d-flex justify-content-end" th:text="'R$ ' + ${#numbers.formatDecimal(produto.valor, 0, 'POINT', 2, 'COMMA')}"></h5>
-				</div>
-				<div class="d-flex justify-content-end mt-4">
-					<a class="btn btn-info mx-2" href="#">Fazer reserva</a>
-					<a class="btn btn-primary" th:href="@{/item-pedido/adicionarCompra/{id}(id=${produto.id})}">Comprar</a>
+			<div class="col-lg-5 col-md-6 col-sm-12 rounded shadow m-2 " th:each="endereco: ${enderecos}">
+				<p class="my-2" th:text="${endereco.logradouro} + ', ' + ${endereco.numero} + (${endereco.complemento} != '' ? ' - ' + ${endereco.complemento} : '')"></p>
+				<p th:text="${endereco.bairro} + ' - ' + ${endereco.cidade}"></p>
+				<p th:text="'CEP: ' + ${endereco.cep}"></p>
+				<p th:text="(${endereco.referencia} != '' ? ${endereco.referencia} : '')"></p>
+				<div class="d-flex justify-content-end my-2">
+					<a class="btn btn-info mx-2" th:href="@{/endereco/alterar/{id}(id=${endereco.id})}">Alterar endereço</a>
+					<a class="btn btn-danger" th:href="@{/endereco/excluir/{id}(id=${endereco.id})}">Excluir</a>
 				</div>
 			</div>
 		</div>

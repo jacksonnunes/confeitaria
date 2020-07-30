@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Rivoli Confeitaria: Cadastro de Endereço</title>
+<title>Rivoli Confeitaria: Alterar Endereço</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -13,9 +13,10 @@
 
 	<div class="container-flex">
 		<div class="d-flex justify-content-center m-4">
-			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
-				<h4 class="my-4">Seu endereço:</h4>
-				<form action="/endereco/cadastrar" method="post" th:object="${endereco}">
+			<div class="col-xl-5 col-lg-7 col-md-9 col-sm-10 col-xs-12 rounded shadow-lg">
+				<form class="m-4" action="/endereco/alterar" method="post" th:object="${endereco}">
+					<input type="hidden" th:field="*{id}"/>
+					<input type="hidden" th:field="*{usuario.id}"/>
 					<div class="row">
 						<div class="form-group col-md-9 col-xs-9">
 							<input type="text" class="form-control" th:field="*{logradouro}" maxlength="50" placeholder="Endereço: Rua, Avenida, Travessa..." autofocus/>

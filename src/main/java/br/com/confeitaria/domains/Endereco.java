@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -59,8 +59,8 @@ public class Endereco {
 	@Length(max = 60, message = "A referência deve conter, no máximo, 60 caracteres.")
 	private String referencia;
 	
-	@OneToOne
-	@JoinColumn(name = "usr_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "usr_id")
 	private Usuario usuario;
 	
 	public Endereco() {
@@ -69,6 +69,10 @@ public class Endereco {
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getLogradouro() {

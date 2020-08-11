@@ -10,5 +10,7 @@ import br.com.confeitaria.domains.Usuario;
 public interface RepositorioEndereco extends JpaRepository<Endereco, Long> {
 	
 	List<Endereco> findByUsuario(Usuario usuario);
+	
+	Endereco findByEnderecoDefault(String palavra);
 
 }

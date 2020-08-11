@@ -1,0 +1,235 @@
+:root {
+	font-size: 60%;
+	--color-background: #E8A9C5;
+	--color-productslist-background: #EBEBEB;
+	--color-primary-lighter: #DEBADC;
+	--color-primary-light:#B663B0;
+	--color-primary: #8B4186;
+	--color-primary-dark: #52274F;
+	--color-primary-darker: #341832;
+	--color-text-primary: #C93678;
+	--color-text-secondary: #524050;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100vh;
+}
+
+body {
+	background-color: var(--color-productslist-background);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+body,
+input,
+button,
+textarea {
+	font: 500 1.6rem 'Roboto';
+}
+
+.produtos-page {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: felx-start;
+	color: var(--color-text-primary);
+}
+
+.container {
+	width: 100vw;
+	max-width: 700px;
+}
+
+.menu {
+	position: fixed;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin-top: 0;
+	width: 100vw;
+	height: 10vh;
+	background-color: var(--color-background);
+}
+
+.menu h2 {
+	color: var(--color-primary-dark);
+	font: 600 3.8rem Lemonada;
+	margin: -3.6rem 1.8rem;
+}
+
+.menu .icons {
+	display: flex;
+	align-items: center;
+	margin-right: 1.0rem;
+}
+
+.icons img {
+	transition: all 0.2s ease;
+}
+
+.icons a:first-child img {
+	margin-right: 2.0rem;
+}
+
+.icons img:hover {
+	transform: scale(1.2);
+}
+
+.produtos-content {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	margin-top: 10.4rem;
+}
+
+.categoria {
+	font: 600 2.4rem Lemonada;
+	color: var(--color-primary-dark);
+	margin-left: 1.0rem;
+}
+
+.produtos-content {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+.produto {
+	display: grid;
+	grid-template-areas: 
+		'imagem nome nome nome'
+		'imagem descricao descricao descricao'
+		'imagem descricao descricao descricao'
+		'imagem quantidade quantidade valor';
+	grid-column-gap: 5px;
+	grid-template-rows: 30% min-content auto min-content;
+	grid-template-columns: min-content 25% 25% auto;
+	width: 95vw;
+	margin: 0.4rem 0;
+	background-color: #FFFFFF;
+	border-radius: 0.6rem;
+	box-shadow: 0rem 0.6rem 2.0rem #CCCCCC;
+}
+
+.produto-imagem {
+	grid-area: imagem;
+	width: 100px;
+	height: 100px;
+	margin: 1.0rem;
+	border: 1px solid #CCCCCC;
+}
+
+.produto-nome {
+	grid-area: nome;
+	text-align: initial;
+	margin-top: 1.0rem;
+	font: 500 2.0rem Roboto;
+	color: #000000;
+}
+
+.produto-descricao {
+	grid-area: descricao;
+	font: 400 1.6rem Roboto;
+	color: #929292;
+}
+
+.produto-quantidade {
+	grid-area: quantidade;
+	display: flex;
+	text-align: initial;
+	align-items: flex-end;
+	margin-bottom: 1.0rem;
+	font: 300 1.6rem Roboto;
+	color: #000000;
+}
+
+.produto-valor {
+	grid-area: valor;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	margin-right: 1.0rem;
+	margin-bottom: 1.0rem;
+	font: 300 2.2rem Roboto;
+	color: #000000;
+}
+
+.buttons-container {
+	display: flex;
+	justify-content: center;
+	margin: 3.2rem 0;
+}
+
+.buttons-container a {
+	width: 30rem;
+	height: 10.4rem;
+	border-radius: 0.8rem;
+	font: 700 1.8rem Archivo;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: #FFFFFF;
+	background-color: var(--color-primary);
+	transition: all 0.2s ease;
+}
+
+.buttons-container a:first-child {
+	margin-right: 1.6rem;
+}
+
+.buttons-container a:hover {
+	background-color: var(--color-primary-dark);
+	transform: scale(1.1);
+}
+
+.buttons-container a img {
+	margin-right: 0.8rem;
+}
+
+@media (min-width: 700px) {
+	#page-landing-content {
+		max-width: 1100px;
+		display: grid;
+		grid-template-rows: 350px 1fr;
+		grid-template-columns: 2fr 1fr 1fr;
+		grid-template-areas: "logo imagem imagem" "buttons buttons buttons";
+	}
+	.logo-container {
+		grid-area: logo;
+		align-self: center;
+		text-align: left;
+		margin: 0;
+	}
+	.logo-container h2 {
+		text-align: initial;
+		font-size: 3.6rem;
+	}
+	.logo-container img {
+		height: 100%;
+	}
+	.imagem-logo {
+		grid-area: imagem;
+		justify-content: flex-start;
+	}
+	.buttons-container {
+		grid-area: buttons;
+		justify-content: flex-start;
+	}
+	.buttons-container a {
+		font-size: 2.0rem;
+	}
+	
+}

@@ -1,11 +1,15 @@
 package br.com.confeitaria.domains;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -28,9 +32,11 @@ public class ItemPedido {
 	@NotNull(message = "A quantidade deve ser preenchida.")
 	private int quantidade;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_ped", nullable = true)
-	private Pedido pedido;
+	@Column(name = "itm_status", length = 15)
+	private String status;
+	
+	@ManyToMany(mappedBy = "item")
+	private List<Pedido> pedido;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usr")
@@ -39,6 +45,7 @@ public class ItemPedido {
 	public ItemPedido() {
 		this.produto = new Produto();
 		this.quantidade = 1;
+		this.pedido = new LinkedList<Pedido>();
 		this.usuario = new Usuario();
 	}
 
@@ -66,11 +73,19 @@ public class ItemPedido {
 		this.quantidade = quantidade;
 	}
 
-	public Pedido getPedido() {
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public List<Pedido> getPedido() {
 		return pedido;
 	}
 
-	public void setPedido(Pedido pedido) {
+	public void setPedido(List<Pedido> pedido) {
 		this.pedido = pedido;
 	}
 
@@ -80,6 +95,10 @@ public class ItemPedido {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public void addPedido(Pedido pedido) {
+		this.pedido.add(pedido);
 	}
 
 }

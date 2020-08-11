@@ -48,6 +48,7 @@ public class Usuario {
 	private String email;
 	
 	@Column(name = "usr_senha", length = 150, nullable = false)
+	@Length(min = 6, message = "A senha deve conter, no mínimo, 6 caracteres.")
 	@NotNull(message = "Escolha uma senha.")
 	@NotEmpty(message = "Escolha uma senha.")
 	private String senha;

@@ -18,5 +18,19 @@ public class HomeController {
 		ModelAndView resultado = new ModelAndView("home/login");
 		return resultado;
 	}
+	
+//	@GetMapping("/login-error")
+//	public String login(HttpServletRequest request, Model model) {
+//		HttpSession session = request.getSession(false);
+//		String errorMessage = null;
+//		if (session != null) {
+//			AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+//			if (ex != null) {
+//				errorMessage = ex.getMessage();
+//			}
+//		}
+//		model.addAttribute("errorMessage", errorMessage);
+//		return "home/login";
+//	}
 
 }

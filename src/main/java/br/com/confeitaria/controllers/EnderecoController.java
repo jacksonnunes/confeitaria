@@ -1,5 +1,7 @@
 package br.com.confeitaria.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,13 @@ public class EnderecoController {
 		String username = auth.getName();
 		Usuario usuario = repositorioUsuario.findByEmail(username);
 		
+		//Verificando se o usuário já possui endeços cadastrados, caso contrário, tornará o endereço cadastrado como default
+		List<Endereco> enderecos = repositorioEndereco.findByUsuario(usuario);
+		if(enderecos.isEmpty())
+			endereco.setEnderecoDefault("default");
+		else
+			endereco.setEnderecoDefault("secundário");
+		
 		endereco.setUsuario(usuario);
 		repositorioEndereco.save(endereco);
 		return "redirect:/";
@@ -79,6 +88,17 @@ public class EnderecoController {
 	@GetMapping("/excluir/{id}")
 	public String excluir(@PathVariable Long id) {
 		repositorioEndereco.deleteById(id);
+		return "redirect:/endereco/listar";
+	}
+	
+	@PostMapping("/escolherDefault/{id}")
+	public String escolherDefault(@PathVariable Long id) {
+		Endereco antigoEnderecoDefault = repositorioEndereco.findByEnderecoDefault("default");
+		antigoEnderecoDefault.setEnderecoDefault("secundário");
+		Endereco novoEnderecoDefault = repositorioEndereco.getOne(id);
+		novoEnderecoDefault.setEnderecoDefault("default");
+		repositorioEndereco.save(antigoEnderecoDefault);
+		repositorioEndereco.save(novoEnderecoDefault);
 		return "redirect:/endereco/listar";
 	}
 

@@ -1,6 +1,7 @@
 package br.com.confeitaria.domains;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,8 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,10 +28,13 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToMany(mappedBy = "pedido")
+	@ManyToMany
+	@JoinTable(name = "ped_possui_item",
+	joinColumns = @JoinColumn(name = "pedido_id"),
+	inverseJoinColumns = @JoinColumn(name = "item_id"))
 	List<ItemPedido> item;
 	
-	@Column(name = "ped_data_pedido", nullable = false)
+	@Column(name = "ped_data_pedido")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataPedido;
@@ -49,19 +54,22 @@ public class Pedido {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_end")
-	private EnderecoEntrega endereco;
+	private Endereco endereco;
 	
 	@Column(name = "ped_valor_total", precision = 2, nullable = false)
 	@Min(value = 0, message = "O valor do pedido não pode ser negativo.")
 	private double valorTotal;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_sta")
-	private StatusPedido status;
+	@Column(name = "ped_status")
+	private String status;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usr")
 	private Usuario usuario;
+	
+	public Pedido() {
+		this.item = new LinkedList<ItemPedido>();
+	}
 
 	public Long getId() {
 		return id;
@@ -111,11 +119,11 @@ public class Pedido {
 		this.pagamento = pagamento;
 	}
 
-	public EnderecoEntrega getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(EnderecoEntrega endereco) {
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 
@@ -127,11 +135,11 @@ public class Pedido {
 		this.valorTotal = valorTotal;
 	}
 
-	public StatusPedido getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusPedido status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -141,6 +149,10 @@ public class Pedido {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public void addItem(ItemPedido item) {
+		this.item.add(item);
 	}
 
 }

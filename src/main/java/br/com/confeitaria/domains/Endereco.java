@@ -59,6 +59,9 @@ public class Endereco {
 	@Length(max = 60, message = "A referência deve conter, no máximo, 60 caracteres.")
 	private String referencia;
 	
+	@Column(name = "end_default", length = 15, nullable = false)
+	private String enderecoDefault;
+	
 	@ManyToOne
 	@JoinColumn(name = "usr_id")
 	private Usuario usuario;
@@ -129,6 +132,14 @@ public class Endereco {
 
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
+	}
+
+	public String getEnderecoDefault() {
+		return enderecoDefault;
+	}
+
+	public void setEnderecoDefault(String enderecoDefault) {
+		this.enderecoDefault = enderecoDefault;
 	}
 
 	public Usuario getUsuario() {

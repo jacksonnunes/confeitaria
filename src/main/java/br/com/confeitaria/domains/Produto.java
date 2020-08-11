@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -45,6 +47,10 @@ public class Produto {
 	
 	@OneToMany(mappedBy = "produto")
 	private List<ItemPedido> itemPedido;
+	
+	@ManyToOne
+	@JoinColumn(name = "cat_id")
+	private Categoria categoria;
 	
 	public Long getId() {
 		return id;
@@ -92,6 +98,14 @@ public class Produto {
 
 	public void setItemPedido(List<ItemPedido> itemPedido) {
 		this.itemPedido = itemPedido;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }

@@ -1,5 +1,7 @@
 package br.com.confeitaria.controllers;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -34,7 +36,11 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/sign-in")
-	public String cadastrar(@Valid Usuario usuario, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String cadastrar(@Valid Usuario usuario, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception, IOException {
+		boolean existeEmail = repositorioUsuario.existsByEmail(usuario.getEmail());
+		if (existeEmail) {
+			result.rejectValue("email", "error.user", "Email já cadastrado.");
+		}
 		if(result.hasErrors())
 			return "usuarios/cadastrar";
 		//Criptografando a senha
@@ -42,7 +48,7 @@ public class UsuarioController {
 		usuario.setSenha(encoder.encode(usuario.getSenha()));
 		//inserindo uma role ao usuário
 		usuario.setRole(repositorioRole.findByRole("ROLE_USER"));
-		repositorioUsuario.save(usuario);
+		repositorioUsuario.save(usuario);		
 		return "redirect:/login";
 	}
 

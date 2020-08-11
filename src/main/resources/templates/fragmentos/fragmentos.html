@@ -8,6 +8,9 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
+<link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
+<link href="/fontawesome/css/brands.css" rel="stylesheet">
+<link href="/fontawesome/css/solid.css" rel="stylesheet">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header">
@@ -32,7 +35,7 @@
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false"> Pedidos </a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-						<a class="dropdown-item" href="#">Meus Pedidos</a> 
+						<a class="dropdown-item" th:href="@{/pedidos/listar}">Meus Pedidos</a> 
 						<a class="dropdown-item" href="#">Another action</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#">Something else here</a>
@@ -74,6 +77,11 @@
 			</div>
 		</div>
 	</nav>
+	
+	<!-- Carrinho de compras -->
+	<div class="d-flex justify-content-end m-3" th:fragment="carrinho">
+		<a th:href="@{/item-pedido/listar}"><h4 class="text-primary"><i class="fas fa-shopping-cart"></i></h4></a>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

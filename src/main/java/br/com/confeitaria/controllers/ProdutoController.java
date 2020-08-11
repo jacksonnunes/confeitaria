@@ -3,6 +3,7 @@ package br.com.confeitaria.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.confeitaria.domains.ItemPedido;
 import br.com.confeitaria.domains.Produto;
+import br.com.confeitaria.repositories.RepositorioCategoria;
 import br.com.confeitaria.repositories.RepositorioProduto;
 
 @Controller
@@ -19,11 +22,15 @@ public class ProdutoController {
 	
 	@Autowired
 	private RepositorioProduto repositorioProduto;
+	@Autowired
+	private RepositorioCategoria repositorioCategoria;
 	
 	@GetMapping("/lista")
 	public ModelAndView listar() {
 		ModelAndView resultado = new ModelAndView("produtos/listar");
 		resultado.addObject("produtos", repositorioProduto.findAll());
+		resultado.addObject("categorias", repositorioCategoria.findAll(Sort.by(Sort.Direction.ASC, "nome")));
+		resultado.addObject("itempedido", new ItemPedido());
 		return resultado;
 	}
 	

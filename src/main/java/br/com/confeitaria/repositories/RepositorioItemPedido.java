@@ -11,6 +11,6 @@ public interface RepositorioItemPedido extends JpaRepository<ItemPedido, Long> {
 	
 	List<ItemPedido> findByUsuario(Usuario usuario);
 	
-	List<ItemPedido> findByUsuarioAndStatus(Usuario usuario, String status);
+//	List<ItemPedido> findByUsuarioAndStatus(Usuario usuario, String status);
 
 }

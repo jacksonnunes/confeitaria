@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Rivoli Confeitaria | Menu</title>
-<link href="/styles/page-pedidos-listar.css" rel="stylesheet">
+<link href="/styles/page-selecionar-item.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
@@ -11,15 +11,15 @@
 </head>
 <body>
 
-	<div class="finalizar-pedido-page">
+	<div class="selecionar-item-page">
 		<div class="container">
 			<div class="menu">
 				<div class="title">
-					<h2>Pedidos</h2>
+					<h2>Adicionar Item</h2>
 				</div>
 				<div class="icons">
 					<span class="quantidade-de-itens" th:if="${quantidadeDeItens > 0}" th:text="${quantidadeDeItens}"></span>
-					<a href="#">
+					<a th:href="@{/pedidos/listar}">
 						<img src="/imagens/icons/cart.svg" alt="Carrinho"/>
 					</a>
 					<a href="#">
@@ -27,20 +27,20 @@
 					</a>
 				</div>
 			</div>
-			<div class="pedidos-content">
-				<div th:each="pedido: ${pedidos}">
-					<div class="itens" th:each="item: ${pedido.item}">
-						<p class="produto-nome" th:text="${item.produto.nome}" />
-						<p class="quantidade" th:text="${item.quantidade} + ' x'" />
-						<p class="valor-total" th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.produto.valor, 0, 'POINT', 2, 'COMMA')}" />
+			<div class="item-pedido">
+				<form action="/item-pedido/comprar" method="post" th:object="${itempedido}">
+					<div class="produto">
+						<input type="hidden" th:field="*{produto.id}" />
 						<img class="produto-imagem" src="/imagens/fotos/img.jpg" />
+						<h4 class="produto-nome" th:text="${itempedido.produto.nome}"></h4>
+						<p class="produto-descricao" th:text="${itempedido.produto.descricao}" />
+						<input type="number" id="quantidade" class="produto-quantidade" th:field="*{quantidade}" min="1" th:max="${itempedido.produto.quantidadeDisponivel}" />
+						<p id="valor" class="produto-valor" th:text="'R$ ' + ${#numbers.formatDecimal(itempedido.produto.valor, 0, 'POINT', 2, 'COMMA')}" />
 					</div>
-				</div>
-<!-- 				<img class="produto-imagem" src="/imagens/fotos/img.jpg" /> -->
-<!-- 				<h4 class="produto-nome" th:text="${produto.nome}"></h4> -->
-<!-- 				<p class="produto-descricao" th:text="${produto.descricao}" /> -->
-<!-- 				<p class="produto-quantidade" th:text="'Qtde: ' + ${produto.quantidadeDisponivel}"/> -->
-<!-- 				<p class="produto-valor" th:text="'R$ ' + ${#numbers.formatDecimal(produto.valor, 0, 'POINT', 2, 'COMMA')}" /> -->
+					<div class="buttons-container">
+						<button type="submit">Adicionar ao carrinho <img src="/imagens/icons/add_shopping_cart.svg" alt="Adicionar ao carrinho"></button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

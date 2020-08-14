@@ -4,10 +4,19 @@
 <meta charset="UTF-8">
 <title>Rivoli Confeitaria | Cadastro de Usuário</title>
 <link href="/styles/page-cadastro.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
-<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 </head>
 <body>
 
@@ -19,52 +28,65 @@
 			<div class="formulario">
 				<form action="/usuario/sign-in" method="post" th:object="${usuario}">
 					<div class="input-nome">
-						<input type="text" th:field="*{nome}" placeholder="Nome *" maxlength="20" />
-						<p class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+						<input type="text" th:field="*{nome}" placeholder="Nome *"
+							maxlength="20" />
+						<p class="text-danger" th:if="${#fields.hasErrors('nome')}"
+							th:errors="*{nome}"></p>
 					</div>
 					<div class="input-sobrenome">
-						<input type="text" th:field="*{sobrenome}" placeholder="Sobrenome *" maxlength="30" />
-						<p class="text-danger" th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}"></p>
+						<input type="text" th:field="*{sobrenome}"
+							placeholder="Sobrenome *" maxlength="30" />
+						<p class="text-danger" th:if="${#fields.hasErrors('sobrenome')}"
+							th:errors="*{sobrenome}"></p>
 					</div>
 					<div class="input-apelido">
-						<input type="text" th:field="*{apelido}" placeholder="Como gostaria de ser chamado(a)?" maxlength="20" />
-						<p class="text-danger" th:if="${#fields.hasErrors('apelido')}" th:errors="*{apelido}"></p>
+						<input type="text" th:field="*{apelido}"
+							placeholder="Como gostaria de ser chamado(a)?" maxlength="20" />
+						<p class="text-danger" th:if="${#fields.hasErrors('apelido')}"
+							th:errors="*{apelido}"></p>
 					</div>
 					<div class="input-telefone">
-						<input type="text" th:field="*{telefone}" placeholder="Telefone *" maxlength="14" />
-						<p class="text-danger" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></p>
+						<input type="text" id="input-telefone" th:field="*{telefone}" placeholder="Telefone *"
+							maxlength="15" />
+						<p class="text-danger" th:if="${#fields.hasErrors('telefone')}"
+							th:errors="*{telefone}"></p>
 					</div>
 					<div class="input-email">
-						<input type="email" th:field="*{email}" placeholder="Email *" maxlength="60" />
-						<p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+						<input type="email" th:field="*{email}" placeholder="Email *"
+							maxlength="60" />
+						<p class="text-danger" th:if="${#fields.hasErrors('email')}"
+							th:errors="*{email}"></p>
 					</div>
 					<div class="input-senha">
-						<input type="password" id="senha" th:field="*{senha}" placeholder="Senha *" min="6" maxlength="20" />
-						<p class="text-danger" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></p>
+						<input type="password" id="senha" th:field="*{senha}"
+							placeholder="Senha *" min="6" maxlength="20" />
+						<p class="text-danger" th:if="${#fields.hasErrors('senha')}"
+							th:errors="*{senha}"></p>
 					</div>
 					<div class="input-senha">
-						<input type="password" id="senha-validar" placeholder="Confirmar senha *" />
+						<input type="password" id="senha-validar"
+							placeholder="Confirmar senha *" />
 						<p id="mensagem-validacao" class="text-danger"></p>
 					</div>
 					<div class="buttons-container">
-						
+
 						<button type="submit" id="submit-button" disabled>
-							<img src="/imagens/icons/finalizar-cadastro.svg" />
-							FINALIZAR CADASTRO
+							<img src="/imagens/icons/finalizar-cadastro.svg" /> FINALIZAR
+							CADASTRO
 						</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-	
+
 	<script>
-		$(document).ready(function(){
-			$("#senha-validar").keyup(function(){
+		$(document).ready(function() {
+			$("#senha-validar").keyup(function() {
 				var senha1 = $("#senha").val().trim();
 				var senha2 = $("#senha-validar").val().trim();
-				
-				if(senha1 !== senha2) {
+
+				if (senha1 !== senha2) {
 					$("#mensagem-validacao").html("Senha não confere!");
 				} else {
 					$("#mensagem-validacao").html("");
@@ -72,6 +94,22 @@
 				}
 			})
 		})
+
+		$(document)
+				.ready(
+						function() {
+							var SPMaskBehavior = function(val) {
+								return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000'
+										: '(00) 0000-00009';
+							}, spOptions = {
+								onKeyPress : function(val, e, field, options) {
+									field.mask(SPMaskBehavior.apply({},
+											arguments), options);
+								}
+							};
+
+							$('#input-telefone').mask(SPMaskBehavior, spOptions);
+						});
 	</script>
 </body>
 </html>

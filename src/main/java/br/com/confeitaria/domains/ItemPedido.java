@@ -24,16 +24,13 @@ public class ItemPedido {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "pro_id")
+	@JoinColumn(name = "id_pro")
 	private Produto produto;
 	
 	@Column(name = "itm_quantidade")
 	@Min(value = 1, message = "Escolha pelo menos um item.")
 	@NotNull(message = "A quantidade deve ser preenchida.")
 	private int quantidade;
-	
-	@Column(name = "itm_status", length = 15)
-	private String status;
 	
 	@ManyToMany(mappedBy = "item")
 	private List<Pedido> pedido;
@@ -71,14 +68,6 @@ public class ItemPedido {
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public List<Pedido> getPedido() {

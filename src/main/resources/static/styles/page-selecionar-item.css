@@ -36,7 +36,7 @@ textarea {
 	font: 500 1.6rem 'Roboto';
 }
 
-.produtos-page {
+.selecionar-item-page {
 	width: 100vw;
 	height: 100vh;
 	display: flex;
@@ -86,7 +86,19 @@ textarea {
 	transform: scale(1.2);
 }
 
-.produtos-content {
+.quantidade-de-itens {
+	text-align: center;
+	text-decoration: none;
+	color: #FFFFFF;
+	width: 20px;
+	margin-top: -2.0rem;
+	margin-right: -1.0rem;
+	background-color: red;
+	border-radius: 50%;
+	z-index: 1;
+}
+
+.item-pedido {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -159,8 +171,9 @@ textarea {
 .produto-quantidade {
 	grid-area: quantidade;
 	display: flex;
-	text-align: initial;
+	text-align: center;
 	align-items: flex-end;
+	width: 6.0rem;
 	margin-bottom: 1.0rem;
 	font: 300 1.6rem Roboto;
 	color: #000000;
@@ -179,13 +192,13 @@ textarea {
 
 .buttons-container {
 	display: flex;
-	justify-content: center;
-	margin: 3.2rem 0;
+	justify-content: flex-end;
+	margin: 2.0rem 0;
 }
 
-.buttons-container a {
+.buttons-container button {
 	width: 30rem;
-	height: 10.4rem;
+	height: 7.0rem;
 	border-radius: 0.8rem;
 	font: 700 1.8rem Archivo;
 	display: flex;
@@ -194,24 +207,21 @@ textarea {
 	text-decoration: none;
 	color: #FFFFFF;
 	background-color: var(--color-primary);
+	border: none;
 	transition: all 0.2s ease;
 }
 
-.buttons-container a:first-child {
-	margin-right: 1.6rem;
-}
-
-.buttons-container a:hover {
+.buttons-container button:hover {
 	background-color: var(--color-primary-dark);
-	transform: scale(1.1);
+	transform: scale(1.05);
 }
 
-.buttons-container a img {
-	margin-right: 0.8rem;
+.buttons-container button img {
+	margin-left: 0.8rem;
 }
 
 @media (min-width: 700px) {
-	.produtos-page,
+	.selecionar-item-page,
 	.container {
 		width: 100%;
 	}

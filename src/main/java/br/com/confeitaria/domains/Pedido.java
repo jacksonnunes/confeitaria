@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,11 +29,11 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "ped_possui_item",
 	joinColumns = @JoinColumn(name = "pedido_id"),
 	inverseJoinColumns = @JoinColumn(name = "item_id"))
-	List<ItemPedido> item;
+	private List<ItemPedido> item;
 	
 	@Column(name = "ped_data_pedido")
 	@Temporal(TemporalType.DATE)

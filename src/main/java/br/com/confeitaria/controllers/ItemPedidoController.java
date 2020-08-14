@@ -12,11 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.confeitaria.domains.ItemPedido;
 import br.com.confeitaria.domains.Pedido;
+import br.com.confeitaria.domains.Produto;
 import br.com.confeitaria.domains.Usuario;
-import br.com.confeitaria.repositories.RepositorioEndereco;
-import br.com.confeitaria.repositories.RepositorioFormaDeEntrega;
-import br.com.confeitaria.repositories.RepositorioFormaPagamento;
-import br.com.confeitaria.repositories.RepositorioItemPedido;
 import br.com.confeitaria.repositories.RepositorioPedido;
 import br.com.confeitaria.repositories.RepositorioProduto;
 import br.com.confeitaria.repositories.RepositorioUsuario;
@@ -26,62 +23,50 @@ import br.com.confeitaria.repositories.RepositorioUsuario;
 public class ItemPedidoController {
 	
 	@Autowired
-	private RepositorioEndereco repositorioEndereco;
-	@Autowired
-	private RepositorioItemPedido repositorioItemPedido;
-	@Autowired
 	private RepositorioPedido repositorioPedido;
 	@Autowired
 	private RepositorioProduto repositorioProduto;
 	@Autowired
 	private RepositorioUsuario repositorioUsuario;
-	@Autowired
-	private RepositorioFormaPagamento repositorioFormaPagamento;
-	@Autowired
-	private RepositorioFormaDeEntrega repositorioFormaDeEntrega;
 	
-	@GetMapping("/listar")
-	public ModelAndView listar() {
-		ModelAndView resultado = new ModelAndView("item-pedido/listar");
-		
+	@GetMapping("/comprar/{id}")
+	public ModelAndView comprar(@PathVariable Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Usuario usuario = repositorioUsuario.findByEmail(username);
 		
-		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
-		if(pedido != null)
-			resultado.addObject("pedido", pedido);
+		ModelAndView resultado = new ModelAndView("item-pedido/comprar");
+		Produto produto = repositorioProduto.getOne(id);
+		ItemPedido itemPedido = new ItemPedido();
+		itemPedido.setProduto(produto);
+		resultado.addObject("itempedido", itemPedido);
 		
-		resultado.addObject("endereco", repositorioEndereco.findByEnderecoDefault("default"));
-		resultado.addObject("formasDePagamento", repositorioFormaPagamento.findAll());
-		resultado.addObject("formasDeEntrega", repositorioFormaDeEntrega.findAll());
+		//Pegando a quantidade de itens para exibir no carrinho
+		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
+		resultado.addObject("quantidadeDeItens", pedido.getItem().size());
 		return resultado;
 	}
 	
-	@PostMapping("/adicionarItemCompra/{id}")
-	public String adicionarCompra(@PathVariable Long id, ItemPedido itemPedido) {
-		//Resgatar usuário logado para salvar o endereço
+	@PostMapping("/comprar")
+	public String comprar(ItemPedido item) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Usuario usuario = repositorioUsuario.findByEmail(username);
 		
-		itemPedido.setUsuario(usuario);
-		itemPedido.setStatus("pendente");
-		itemPedido.setProduto(repositorioProduto.getOne(id));
-		repositorioItemPedido.save(itemPedido);
+		item.setUsuario(usuario);
 		
+		//Verificando se existe pedido pendente, caso contrário, cria um novo pedido
 		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
-			if(pedido != null) {
-				pedido.setItem(repositorioItemPedido.findByUsuarioAndStatus(usuario, "pendente"));
-				repositorioPedido.save(pedido);
-			} else {
-				Pedido novoPedido = new Pedido();
-				novoPedido.setUsuario(usuario);
-				novoPedido.setStatus("pendente");
-				novoPedido.setItem(repositorioItemPedido.findByUsuarioAndStatus(usuario, "pendente"));
-				repositorioPedido.save(novoPedido);
-			}
+		if (pedido == null) {
+			pedido = new Pedido();
+			pedido.setUsuario(usuario);
+			pedido.setStatus("pendente");
+		}
+		
+		pedido.getItem().add(item);
+		repositorioPedido.save(pedido);
+		
 		return "redirect:/produtos/lista";
 	}
-
+	
 }

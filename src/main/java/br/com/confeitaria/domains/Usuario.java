@@ -56,8 +56,8 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario")
 	private List<Endereco> enderecos;
 	
-	@Column(name = "usr_telefone", length = 14, nullable = false)
-	@Length(max = 14, message = "O número de telefone deve conter, no máximo, 14 caracteres.")
+	@Column(name = "usr_telefone", length = 15, nullable = false)
+	@Length(max = 15, message = "O número de telefone deve conter, no máximo, 15 caracteres.")
 	@NotNull(message = "Digite um número de telefone.")
 	@NotEmpty(message = "Digite um número de telefone.")
 	private String telefone;

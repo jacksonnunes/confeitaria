@@ -36,7 +36,7 @@ textarea {
 	font: 500 1.6rem 'Roboto';
 }
 
-.produtos-page {
+.finalizar-pedido-page {
 	width: 100vw;
 	height: 100vh;
 	display: flex;
@@ -86,77 +86,43 @@ textarea {
 	transform: scale(1.2);
 }
 
-.produtos-content {
+.pedidos-content {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
 	margin-top: 10.4rem;
-	max-width: 700px;
 }
 
-.categoria {
-	font: 600 2.4rem Lemonada;
-	color: var(--color-primary-dark);
-	margin-left: 1.0rem;
-}
-
-.produtos-content {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	flex-wrap: wrap;
-}
-
-.produto {
+.itens {
 	display: grid;
-	grid-template-areas: 
-		'imagem nome nome nome'
-		'imagem descricao descricao descricao'
-		'imagem descricao descricao descricao'
-		'imagem quantidade quantidade valor';
 	grid-column-gap: 5px;
-	grid-template-rows: 30% min-content auto min-content;
-	grid-template-columns: min-content 25% 25% auto;
-	text-decoration: none;
+	grid-template-areas:
+		'nome nome imagem'
+		'quantidade valor imagem';
+	grid-template-rows: 50% 50%;
+	grid-template-columns: auto auto min-content;
 	width: 95vw;
-	max-width: 500px;
-	margin: 0.4rem 0;
-	background-color: #FFFFFF;
-	border: none;
+	max-width: 600px;
+	padding: 0.4rem 1.2rem;
+	border-top: 1px solid #B1B1B1;
+	border-bottom: 1px solid #B1B1B1;
+	margin-top: -1px;
+}
+
+.itens img {
 	border-radius: 0.6rem;
-	box-shadow: 0rem 0.6rem 2.0rem #CCCCCC;
-	transition: all 0.2s ease;
-}
-
-.produto:hover {
-	transform: scale(1.05);
-}
-
-.produto-imagem {
-	grid-area: imagem;
-	width: 100px;
-	height: 100px;
-	margin: 1.0rem;
-	border: 1px solid #CCCCCC;
 }
 
 .produto-nome {
 	grid-area: nome;
 	text-align: initial;
 	margin-top: 1.0rem;
-	font: 500 2.0rem Roboto;
+	font: 500 1.6rem Roboto;
 	color: #000000;
 }
 
-.produto-descricao {
-	grid-area: descricao;
-	text-align: initial;
-	font: 400 1.6rem Roboto;
-	color: #929292;
-}
-
-.produto-quantidade {
+.quantidade {
 	grid-area: quantidade;
 	display: flex;
 	text-align: initial;
@@ -166,15 +132,22 @@ textarea {
 	color: #000000;
 }
 
-.produto-valor {
+.valor-total {
 	grid-area: valor;
 	display: flex;
 	justify-content: flex-end;
 	align-items: flex-end;
-	margin-right: 1.0rem;
 	margin-bottom: 1.0rem;
 	font: 300 2.2rem Roboto;
 	color: #000000;
+}
+
+.produto-imagem {
+	grid-area: imagem;
+	width: 80px;
+	height: 80px;
+	margin: 1.0rem;
+	border: 1px solid #000000;
 }
 
 .buttons-container {

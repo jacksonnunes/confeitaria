@@ -85,9 +85,5 @@ public class ItemPedido {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
-	public void addPedido(Pedido pedido) {
-		this.pedido.add(pedido);
-	}
 
 }

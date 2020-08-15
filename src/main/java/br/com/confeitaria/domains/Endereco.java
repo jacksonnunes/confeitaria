@@ -1,5 +1,6 @@
 package br.com.confeitaria.domains;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,11 +38,9 @@ public class Endereco {
 	@Length(max = 10, message = "O complemento deve conter, no máximo, 10 caracteres.")
 	private String complemento;
 	
-	@Column(name = "end_bairro", length = 30, nullable = false)
-	@Length(max = 30, message = "O bairro deve conter, no máximo, 30 caracteres.")
-	@NotEmpty(message = "Preenchimento obrigatório.")
-	@NotNull(message = "Preenchimento obrigatório.")
-	private String bairro;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_bairro")
+	private Bairro bairro;
 	
 	@Column(name = "end_cidade", length = 30, nullable = false)
 	@Length(max = 30, message = "A cidade deve conter, no máximo, 30 caracteres.")
@@ -102,11 +101,11 @@ public class Endereco {
 		this.complemento = complemento;
 	}
 
-	public String getBairro() {
+	public Bairro getBairro() {
 		return bairro;
 	}
 
-	public void setBairro(String bairro) {
+	public void setBairro(Bairro bairro) {
 		this.bairro = bairro;
 	}
 

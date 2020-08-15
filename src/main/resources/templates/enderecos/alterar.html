@@ -33,31 +33,9 @@
 							<p class="text-danger" th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}"></p>
 						</div>
 						<div class="form-group col-md-8 col-sm-12">
-							<input list="bairros" class="form-control" th:field="*{bairro}" maxlength="30" placeholder="Bairro">
-							<datalist id="bairros">
-								<option value="Alto Boa Vista">Alto Boa Vista</option>
-								<option value="Alto São Francisco">Alto São Francisco</option>
-								<option value="Baviera">Baviera</option>
-								<option value="Campo Novo">Campo Novo</option>
-								<option value="Campo Velho">Campo Velho</option>
-								<option value="Carrascal">Carrascal</option>
-								<option value="Cedro">Cedro</option>
-								<option value="Centro">Centro</option>
-								<option value="Cohab">Cohab</option>
-								<option value="Combate">Combate</option>
-								<option value="Curicaca">Curicaca</option>
-								<option value="Herval">Herval</option>
-								<option value="Irajá">Irajá</option>
-								<option value="Jardim dos Monólitos">Jardim dos Monólitos</option>
-								<option value="Monte Alegre">Monte Alegre</option>
-								<option value="Nova Jerusalém">Nova Jerusalém</option>
-								<option value="Planalto Renascer">Planalto Renascer</option>
-								<option value="Planalto Universitário">Planalto Universitário</option>
-								<option value="Putiú">Putiú</option>
-								<option value="São João">São João</option>
-								<option value="Triângulo">Triângulo</option>
-							</datalist>
-							<p class="text-danger" th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}"></p>
+							<select class="form-control" th:field="*{bairro.id}">
+								<option th:each="bairro: ${bairros}" th:value=${bairro.id} th:text="${bairro.nome}" />
+							</select>
 						</div>
 					</div>
 					<div class="row">

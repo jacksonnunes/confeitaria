@@ -53,6 +53,10 @@ public class Pedido {
 	@JoinColumn(name = "id_pgt")
 	private FormaPagamento pagamento;
 	
+	@Column(name = "ped_dinheiro")
+	@Min(value = 0, message = "O valor não pode ser negativo.")
+	private double dinheiro;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_end")
 	private Endereco endereco;
@@ -120,6 +124,14 @@ public class Pedido {
 		this.pagamento = pagamento;
 	}
 
+	public double getDinheiro() {
+		return dinheiro;
+	}
+
+	public void setDinheiro(double dinheiro) {
+		this.dinheiro = dinheiro;
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -150,10 +162,6 @@ public class Pedido {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-	
-	public void addItem(ItemPedido item) {
-		this.item.add(item);
 	}
 
 }

@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.confeitaria.domains.Endereco;
+import br.com.confeitaria.domains.ItemPedido;
+import br.com.confeitaria.domains.Pedido;
 import br.com.confeitaria.domains.Usuario;
-import br.com.confeitaria.repositories.RepositorioItemPedido;
+import br.com.confeitaria.repositories.RepositorioEndereco;
+import br.com.confeitaria.repositories.RepositorioFormaDeEntrega;
+import br.com.confeitaria.repositories.RepositorioFormaPagamento;
 import br.com.confeitaria.repositories.RepositorioPedido;
-import br.com.confeitaria.repositories.RepositorioProduto;
 import br.com.confeitaria.repositories.RepositorioUsuario;
 
 @Controller
@@ -19,11 +23,13 @@ import br.com.confeitaria.repositories.RepositorioUsuario;
 public class PedidoController {
 	
 	@Autowired
-	private RepositorioItemPedido repositorioItemPedido;
+	private RepositorioEndereco repositorioEndereco;
+	@Autowired
+	private RepositorioFormaDeEntrega repositorioFormaDeEntrega;
+	@Autowired
+	private RepositorioFormaPagamento repositorioFormaPagamento;
 	@Autowired
 	private RepositorioPedido repositorioPedido;
-	@Autowired
-	private RepositorioProduto repositorioProduto;
 	@Autowired
 	private RepositorioUsuario repositorioUsuario;
 	
@@ -35,30 +41,26 @@ public class PedidoController {
 		String username = auth.getName();
 		Usuario usuario = repositorioUsuario.findByEmail(username);
 		
-		resultado.addObject("pedidos", repositorioPedido.findByUsuario(usuario));
+		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
+		Endereco enderecoDefault = repositorioEndereco.findByEnderecoDefault("default");
+		pedido.setEndereco(enderecoDefault);
+		
+		//Somando os valores dos itens e adicionando ao valor total do pedido
+		double valorTotal = 0.0;
+		for(ItemPedido item: pedido.getItem()) {
+			double valorItem = item.getProduto().getValor() * item.getQuantidade();
+			valorTotal += valorItem;
+		}
+		pedido.setValorTotal(valorTotal);
+		
+		//Adicionando o valor total com a taxa de entrega
+		double valorComTaxa = pedido.getValorTotal() + pedido.getEndereco().getBairro().getTaxaEntrega();
+		resultado.addObject("valorcomtaxa", valorComTaxa);
+		
+		resultado.addObject("pedido", pedido);
+		resultado.addObject("formaentrega", repositorioFormaDeEntrega.findAll());
+		resultado.addObject("formapagamento", repositorioFormaPagamento.findAll());
 		return resultado;
 	}
-	
-//	@PostMapping("/efetuar")
-//	public String efetuarPedido() {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String username = auth.getName();
-//		Usuario usuario = repositorioUsuario.findByEmail(username);
-//		
-//		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
-//		pedido.setStatus("efetuado");
-//		pedido.setDataPedido(new Date());
-//		List<ItemPedido> itensPedido = repositorioItemPedido.findByUsuarioAndStatus(usuario, "pendente");
-//		for(ItemPedido item: itensPedido) {
-//			Produto produto = item.getProduto();
-//			int quantidadeDisponivel = produto.getQuantidadeDisponivel();
-//			produto.setQuantidadeDisponivel(quantidadeDisponivel - item.getQuantidade());
-//			repositorioProduto.save(produto);
-//			repositorioItemPedido.save(item);
-//		}
-//		repositorioPedido.save(pedido);
-//		
-//		return "redirect:/pedidos/listar";
-//	}
 
 }

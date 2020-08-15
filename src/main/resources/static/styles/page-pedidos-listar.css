@@ -33,7 +33,7 @@ body,
 input,
 button,
 textarea {
-	font: 500 1.6rem 'Roboto';
+	font: 300 1.8rem Roboto;
 }
 
 .finalizar-pedido-page {
@@ -42,7 +42,7 @@ textarea {
 	display: flex;
 	justify-content: center;
 	align-items: felx-start;
-	color: var(--color-text-primary);
+	color: #000000;
 }
 
 .container {
@@ -86,12 +86,20 @@ textarea {
 	transform: scale(1.2);
 }
 
-.pedidos-content {
+.formulario {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
 	margin-top: 10.4rem;
+}
+
+.pedidos-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	max-width: 550px;
 }
 
 .itens {
@@ -103,8 +111,8 @@ textarea {
 	grid-template-rows: 50% 50%;
 	grid-template-columns: auto auto min-content;
 	width: 95vw;
-	max-width: 600px;
-	padding: 0.4rem 1.2rem;
+	max-width: 550px;
+	padding: 0.2rem 1.2rem;
 	border-top: 1px solid #B1B1B1;
 	border-bottom: 1px solid #B1B1B1;
 	margin-top: -1px;
@@ -118,7 +126,7 @@ textarea {
 	grid-area: nome;
 	text-align: initial;
 	margin-top: 1.0rem;
-	font: 500 1.6rem Roboto;
+	font: 500 1.8rem Roboto;
 	color: #000000;
 }
 
@@ -150,23 +158,157 @@ textarea {
 	border: 1px solid #000000;
 }
 
+.seletores {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 95vw;
+	max-width: 550px;
+	margin: 0.6rem;
+	border-top: 1px solid #B1B1B1;
+	border-bottom: 1px solid #B1B1B1;
+}
+
+.forma-de-entrega,
+.forma-de-pagamento {
+	padding: 1.0rem 0;
+}
+
+.select {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 44vw;
+	max-width: 265px;
+	height: 4rem;
+	margin: 0 0.4rem;
+	font: 300 1.8rem Roboto;
+	text-align-last: center;
+	border: 1px solid #B1B1B1;
+	border-radius: 5px;
+}
+
+.select:hover {
+	outline: none;
+	border: none;
+	box-shadow: 1px 1px 5px var(--color-primary-light);
+}
+
+.select:focus {
+	outline: none;
+	border: 2px solid var(--color-primary-light);
+}
+
+.select option {
+	margin: 2.0rem;
+	font: 300 1.8rem Roboto;
+}
+
+.endereco-entrega {
+	display: block;
+	width: 95vw;
+	max-width: 550px;
+	border-top: 1px solid #B1B1B1;
+	border-bottom: 1px solid #B1B1B1;
+	font: 300 1.8rem Roboto;
+	color: #000000;
+	padding: 0.6rem 0.8rem;
+}
+
+.endereco-entrega p {
+	line-height: 2.6rem;
+}
+
+.dinheiro {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 95vw;
+	max-width: 550px;
+	height: 4rem;
+	margin: 0.6rem;
+	padding: 3.0rem 1.0rem;
+	font: 300 1.8rem Roboto;
+	text-align-last: end;
+}
+
+.dinheiro label {
+	margin-right: 0.4rem;
+}
+
+.dinheiro input {
+	width: 150px;
+	height: 4rem;
+	padding: 1.0rem;
+	border: 1px solid #B1B1B1;
+	border-radius: 5px;
+}
+
+.dinheiro input:hover {
+	outline: none;
+	border: none;
+	box-shadow: 1px 1px 5px var(--color-primary-light);
+}
+
+.dinheiro input:focus {
+	outline: none;
+	border: 2px solid var(--color-primary-light);
+}
+
+.informacoes-finais {
+	width: 95vw;
+	max-width: 550px;
+}
+
+.informacoes-finais div {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 0 1.0rem;
+}
+
+.informacoes-finais div p:first-child {
+	margin-right: 0.6rem;
+}
+
+.valor-final {
+	margin-top: 1.0rem;
+	font: 500 2.2rem Roboto;
+}
+
+.horarios {
+	margin: 1.0rem 0;
+	width: 95vw;
+	max-width: 550px;
+}
+
+.horarios p {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font: 500 1.6rem Roboto;
+	color: var(--color-primary);
+}
+
 .buttons-container {
 	display: flex;
 	justify-content: center;
 	margin: 3.2rem 0;
 }
 
-.buttons-container a {
-	width: 30rem;
-	height: 10.4rem;
+.buttons-container a,
+.buttons-container button {
+	width: 22.5rem;
+	height: 9.0rem;
 	border-radius: 0.8rem;
-	font: 700 1.8rem Archivo;
+	font: 700 1.6rem Archivo;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-decoration: none;
 	color: #FFFFFF;
 	background-color: var(--color-primary);
+	border: none;
 	transition: all 0.2s ease;
 }
 
@@ -174,19 +316,60 @@ textarea {
 	margin-right: 1.6rem;
 }
 
-.buttons-container a:hover {
+.buttons-container a:hover,
+.buttons-container button:hover {
 	background-color: var(--color-primary-dark);
-	transform: scale(1.1);
+	transform: scale(1.05);
+	box-shadow: 3px 3px 8px #000000;
 }
 
-.buttons-container a img {
-	margin-right: 0.8rem;
+.buttons-container a img,
+.buttons-container button img {
+	margin-left: 0.8rem;
 }
 
-@media (min-width: 700px) {
-	.produtos-page,
-	.container {
-		width: 100%;
+@media (min-width: 1130px) {
+	.formulario {
+		display: grid;
+		grid-template-areas:
+			'itens seletores'
+			'itens endereco'
+			'itens dinheiro'
+			'itens informacoes'
+			'horarios buttons';
+		grid-column-gap: 10px;
+		grid-template-rows: auto auto auto auto auto;
+		grid-template-columns: auto auto;
 	}
 	
+	.pedidos-content {
+		grid-area: itens;
+	}
+	
+	.seletores {
+		grid-area: seletores;
+	}
+	
+	.endereco-entrega {
+		grid-area: endereco;
+	}
+	
+	.dinheiro {
+		grid-area: dinheiro;
+	}
+	
+	.informacoes-finais {
+		grid-area: informacoes;
+	}
+	
+	.horarios {
+		grid-area: horarios;
+	}
+	
+	.buttons-container {
+		grid-area: buttons;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
 }

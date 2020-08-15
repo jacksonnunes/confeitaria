@@ -27,21 +27,70 @@
 					</a>
 				</div>
 			</div>
-			<div class="pedidos-content">
-				<div th:each="pedido: ${pedidos}">
+			<form class="formulario" action="/finalizar-pedido" method="post" th:object="${pedido}">
+				<input type="hidden" th:field="*{id}" />
+				
+				<div class="pedidos-content">
 					<div class="itens" th:each="item: ${pedido.item}">
 						<p class="produto-nome" th:text="${item.produto.nome}" />
-						<p class="quantidade" th:text="${item.quantidade} + ' x'" />
+						<p class="quantidade" th:text="${item.quantidade} + ' x R$ ' + ${#numbers.formatDecimal(item.produto.valor, 0, 'POINT', 2, 'COMMA')}" />
 						<p class="valor-total" th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.produto.valor, 0, 'POINT', 2, 'COMMA')}" />
 						<img class="produto-imagem" src="/imagens/fotos/img.jpg" />
 					</div>
 				</div>
-<!-- 				<img class="produto-imagem" src="/imagens/fotos/img.jpg" /> -->
-<!-- 				<h4 class="produto-nome" th:text="${produto.nome}"></h4> -->
-<!-- 				<p class="produto-descricao" th:text="${produto.descricao}" /> -->
-<!-- 				<p class="produto-quantidade" th:text="'Qtde: ' + ${produto.quantidadeDisponivel}"/> -->
-<!-- 				<p class="produto-valor" th:text="'R$ ' + ${#numbers.formatDecimal(produto.valor, 0, 'POINT', 2, 'COMMA')}" /> -->
-			</div>
+				
+				<div class="seletores">
+					<div class="forma-de-entrega">
+						<select class="select" id="entrega" th:field="*{entrega.id}">
+							<option th:each="entrega: ${formaentrega}" th:value="${entrega.id}" th:text="${entrega.formaEntrega}" />
+						</select>
+					</div>
+					<div class="forma-de-pagamento">
+						<select class="select" id="pagamento" th:field="*{pagamento.id}">
+							<option th:each="pagamento: ${formapagamento}" th:value="${pagamento.id}" th:text="${pagamento.formaPagamento}" />
+						</select>
+					</div>
+				</div>
+				
+				<div class="endereco-entrega">
+					<input type="hidden" th:field="*{endereco.id}" />
+					<p>Endereço de entrega</p>
+					<p th:text="${pedido.endereco.logradouro} + ', ' + ${pedido.endereco.numero}" />
+				</div>
+				
+				<div class="dinheiro">
+					<label for="dinheiro">Troco para:</label>
+					<input type="text" id="dinheiro" th:field="*{dinheiro}" />
+				</div>
+				
+				<div class="informacoes-finais">
+					<div class="subtotal">
+						<p>Subtotal:</p>
+						<p th:text="'R$ ' + ${#numbers.formatDecimal(pedido.valorTotal, 0, 'POINT', 2, 'COMMA')}" />
+					</div>
+					<div class="taxa-entrega">
+						<p>Taxa de entrega:</p>
+						<p th:text="'R$ ' + ${#numbers.formatDecimal(pedido.endereco.bairro.taxaEntrega, 0, 'POINT', 2, 'COMMA')}" />
+					</div>
+					<div class="valor-final">
+						<p>Total:</p>
+						<p id="valorfinal" th:text="'R$ ' + ${#numbers.formatDecimal(valorcomtaxa, 0, 'POINT', 2, 'COMMA')}" />
+						<input type="hidden" th:field="*{valorTotal}" />
+					</div>
+				</div>
+				
+				<div class="horarios">
+					<p>Horários de atendimento:</p>
+					<p>Segunda a sexta-feira de 08:00 às 12:00 e de 14:00 às 17:00</p>
+					<p>Sábado de 08:00 às 12:00</p>
+				</div>
+				
+				<div class="buttons-container">
+					<a th:href="@{/produtos/lista}">Continuar comprando<img src="/imagens/icons/cesta.svg" alt="Continuar comprando" /></a>
+					<button type="submit">Finalizar pedido<img src="/imagens/icons/ok.svg" alt="Continuar comprando" /></button>
+				</div>
+				
+			</form>
 		</div>
 	</div>
 	

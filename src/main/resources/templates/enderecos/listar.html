@@ -19,7 +19,7 @@
 		<div class="d-flex flex-wrap justify-content-center m-4">
 			<div class="col-lg-5 col-md-6 col-sm-12 rounded shadow m-2 " th:each="endereco: ${enderecos}">
 				<p class="my-2" th:text="${endereco.logradouro} + ', ' + ${endereco.numero} + (${endereco.complemento} != '' ? ' - ' + ${endereco.complemento} : '')"></p>
-				<p th:text="${endereco.bairro} + ' - ' + ${endereco.cidade}"></p>
+				<p th:text="${endereco.bairro.nome} + ' - ' + ${endereco.cidade}"></p>
 				<p th:text="'CEP: ' + ${endereco.cep}"></p>
 				<p th:text="(${endereco.referencia} != '' ? ${endereco.referencia} : '')"></p>
 				<div class="d-flex justify-content-end my-2">

@@ -52,6 +52,11 @@ public class Produto {
 	@JoinColumn(name = "cat_id")
 	private Categoria categoria;
 	
+	public Produto() {
+		super();
+		this.categoria = new Categoria();
+	}
+
 	public Long getId() {
 		return id;
 	}

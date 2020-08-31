@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Rivoli Confeitaria | Cadastro de Produtos</title>
+<title>Rivoli Confeitaria | Atualizar produto</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="/scripts/maskmoney.min.js"></script>
@@ -13,8 +13,9 @@
 	<div class="container-flex">
 		<div class="d-flex justify-content-center m-4">
 			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
-				<h4 class="my-4">Cadastro de produtos</h4>
+				<h4 class="my-4">Atualizar produto</h4>
 				<form id="formulario" action="/produtos/adm/cadastrar" method="post" th:object="${produto}">
+					<input type="hidden" th:field="*{id}" />
 					<div class="row">
 						<div class="form-group col-md-6">
 							<select class="form-control" th:field="*{categoria.id}">
@@ -63,10 +64,7 @@
 	</div>
 	
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#quantidade').val('');
-			$('#valor').val('');
-			
+		$(document).ready(function(){			
 			//Adicionando a máscara de dinheiro ao input "Valor unitário"
 			$('#valor').maskMoney({
 				prefix: "R$ ",

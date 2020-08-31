@@ -32,7 +32,7 @@ public class ItemPedido {
 	@NotNull(message = "A quantidade deve ser preenchida.")
 	private int quantidade;
 	
-	@ManyToMany(mappedBy = "item")
+	@ManyToMany(mappedBy = "itens")
 	private List<Pedido> pedido;
 	
 	@ManyToOne

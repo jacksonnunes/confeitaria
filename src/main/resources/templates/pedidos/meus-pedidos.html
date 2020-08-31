@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria | Meus Pedidos</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body class="bg-light">
+	
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container">
+	
+		<div class="d-flex justify-content-center align-items-start flex-wrap">
+			<div id="pedidos-pendentes" class="d-flex justify-content-center mw-100 m-3 vw-100" th:if="${pedidospendentes.size()} > 0">
+				<div>
+					<h5 class="m-2">Pendentes</h5>
+					<div id="pedido-pendente" class="d-flex justify-content-start align-items-start m-2 bg-info rounded-lg shadow-sm p-3 text-white" style="max-width: 430px" th:each="pedido: ${pedidospendentes}" th:if="${pedido.status} != 'entregue'">
+						<div id="conteudo" class="vw-100">
+							<h6 class="numeropedido" th:text="'Pedido #' + ${pedido.id}"></h6>
+							<div id="itempedido" class="my-3">
+								<p class="mb-1" th:each="itempedido: ${pedido.itens}" th:text="${itempedido.quantidade} + 'x ' + ${itempedido.produto.nome}" />
+							</div>
+							<div id="valores" class="text-right my-3">
+								<div id="valortotal">
+									<p class="mb-0" th:text="'Total: R$ ' + ${#numbers.formatDecimal(pedido.valorTotal, 0, 'POINT', 2, 'COMMA')}" />
+								</div>
+								<div id="troco" th:if="${pedido.pagamento.formaPagamento} == 'Dinheiro'">
+									<p th:text="'Troco para: R$ ' + ${#numbers.formatDecimal(pedido.dinheiro, 0, 'POINT', 2, 'COMMA')}" />
+								</div>
+							</div>
+							<p id="endereco" th:if="${pedido.entrega.formaEntrega} == 'Delivery'" th:text="${pedido.endereco.logradouro} + ', ' + ${pedido.endereco.numero}" />
+							<div id="status" class="d-flex justify-content-center align-items-start">
+								<p class="font-italic mr-2" th:text="'Status: ' + ${pedido.status}" />
+								<span class="pedido-icon" th:if="${pedido.status} == 'aguardando confirmação'"><img style="width: 25px; height: 25px" src="/imagens/icons/alarm.svg" /></span>
+								<span class="pedido-icon" th:if="${pedido.status} == 'em preparação'"><img style="width: 25px; height: 25px" src="/imagens/icons/history.svg" /></span>
+								<span class="pedido-icon" th:if="${pedido.status} == 'pronto para entrega'"><img style="width: 25px; height: 25px" src="/imagens/icons/giftcard.svg" /></span>
+								<span class="pedido-icon" th:if="${pedido.status} == 'saiu para entrega'"><img style="width: 25px; height: 25px" src="/imagens/icons/motorcycle.svg" /></span>
+								<span class="pedido-icon" th:if="${pedido.status} == 'entregue'"><img style="width: 25px; height: 25px" src="/imagens/icons/ok.svg" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="pedidos-entregues" class="d-flex justify-content-center mw-100 m-3 vw-100" th:if="${pedidos.size()} > 0">
+				<div>
+					<h5 class="m-2">Pedidos entregues</h5>
+					<div id="pedido-finalizado" class="d-flex justify-content-start align-items-start m-2 bg-secondary rounded-lg shadow-sm p-3 text-white" style="max-width: 430px" th:each="pedido: ${pedidos}" th:if="${pedido.status} == 'entregue'">
+						<div id="conteudo" class="vw-100">
+							<h6 class="numeropedido" th:text="'Pedido #' + ${pedido.id}"></h6>
+							<div id="itempedido" class="my-3">
+								<p class="mb-1" th:each="itempedido: ${pedido.itens}" th:text="${itempedido.quantidade} + 'x ' + ${itempedido.produto.nome}" />
+							</div>
+							<div id="valores" class="text-right my-3">
+								<div id="valortotal">
+									<p class="mb-0" th:text="'Total: R$ ' + ${#numbers.formatDecimal(pedido.valorTotal, 0, 'POINT', 2, 'COMMA')}" />
+								</div>
+								<div id="troco" th:if="${pedido.pagamento.formaPagamento} == 'Dinheiro'">
+									<p th:text="'Troco para: R$ ' + ${#numbers.formatDecimal(pedido.dinheiro, 0, 'POINT', 2, 'COMMA')}" />
+								</div>
+							</div>
+							<p class="endereco" th:if="${pedido.entrega.formaEntrega} == 'Delivery'" th:text="${pedido.endereco.logradouro} + ', ' + ${pedido.endereco.numero}" />
+							<div id="status" class="d-flex justify-content-center align-items-start">
+								<p class="font-italic mr-2" th:text="'Status: ' + ${pedido.status}" />
+								<span class="pedido-icon" th:if="${pedido.status} == 'aguardando confirmação'"><img src="/imagens/icons/alarm.svg" /></span>
+								<span class="pedido-icon" th:if="${pedido.status} == 'entregue'"><img src="/imagens/icons/ok.svg" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<script type="text/javascript">
+// 		$(document).ready(function(){
+// 			//Esconder itens de menu quando a tela for menor que 840px
+// 			function checkWidth() {
+// 				if ($(window).width() <= 983) {
+// 					$('.collapse').hide();
+// 					$('.collapse').css('height','0px');
+// 				} else {
+// 					$('.collapse').show();
+// 					$('.collapse').css('height','auto');
+// 				}
+// 			}
+// 			checkWidth();
+// 			//Quando o tamanho da tela variar, fazer checagem para esconder ou mostrar menu
+// 			$(window).resize(checkWidth);
+			
+// 			//Quando clicar no ícone de menu, o menu fará um efeito slide para baixo ou para cima
+// 			$('.menu-mobile').click(function() {
+// 				$('.collapse').slideToggle('fast');
+// 			});
+// 		});
+	</script>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+</body>
+</html>

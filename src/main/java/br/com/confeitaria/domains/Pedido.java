@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "ped_pedidos")
@@ -33,16 +34,16 @@ public class Pedido {
 	@JoinTable(name = "ped_possui_item",
 	joinColumns = @JoinColumn(name = "pedido_id"),
 	inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private List<ItemPedido> item;
+	private List<ItemPedido> itens;
 	
 	@Column(name = "ped_data_pedido")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private Date dataPedido;
 	
 	@Column(name = "ped_data_entrega")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private Date dataEntrega;
 	
 	@ManyToOne
@@ -73,7 +74,7 @@ public class Pedido {
 	private Usuario usuario;
 	
 	public Pedido() {
-		this.item = new LinkedList<ItemPedido>();
+		this.itens = new LinkedList<ItemPedido>();
 	}
 
 	public Long getId() {
@@ -84,12 +85,12 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public List<ItemPedido> getItem() {
-		return item;
+	public List<ItemPedido> getItens() {
+		return itens;
 	}
 
-	public void setItem(List<ItemPedido> item) {
-		this.item = item;
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	public Date getDataPedido() {

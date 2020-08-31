@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria | Dados Pessoais</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body class="bg-light">
+	
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container">
+		<div id="dados-pessoais" class="">
+			<div class="d-flex justify-content-between align-items-center m-3">
+				<h3 class="">Dados pessoais:</h3>
+				<a href="/usuario/atualizar-dados">Editar</a>
+			</div>
+			<hr>
+			<div class="m-3">
+				<h5 th:text="'Nome: ' + ${usuario.nome} + ' ' + ${usuario.sobrenome}"></h5>
+				<p class="m-0" th:text="'Quer ser chamado por: ' + ${usuario.apelido}" />
+				<p class="m-0" th:text="'Telefone: ' + ${usuario.telefone}" />
+				<p class="m-0" th:text="'Email: ' + ${usuario.email}" />
+				<div class="d-flex justify-content-start">
+					<p class="mr-2" th:text="'Senha: '" />
+					<a href="#">Alterar senha</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="endereco-principal" class="">
+			<div class="d-flex justify-content-between align-items-center m-3">
+				<h3 class="">Endereço principal:</h3>
+				<a href="/endereco/escolherDefault">Alterar</a>
+			</div>
+			<hr>
+			<div class="m-3">
+				<p class="m-0" th:text="${endereco.logradouro} + ', ' + ${endereco.numero} + (${endereco.complemento} != '' ? ' - ' + ${endereco.complemento} : '')"/>
+				<p class="m-0" th:text="${endereco.bairro} + ' - ' + ${endereco.cidade}" />
+				<p class="m-0" th:text="'CEP: ' + ${endereco.cep}" />
+				<p class="m-0" th:text="${endereco.referencia} != '' ? 'Referência: ' + ${endereco.referencia} : ''" />
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+</body>
+</html>

@@ -1,13 +1,10 @@
 package br.com.confeitaria.domains;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -33,9 +30,6 @@ public class Bairro {
 	@Min(value = 0, message = "O valor não pode ser negativo")
 	@NotNull(message = "Preenchimento obrigatório.")
 	private double taxaEntrega;
-	
-	@OneToMany(mappedBy = "bairro")
-	private List<Endereco> enderecos;
 
 	public Long getId() {
 		return id;
@@ -59,14 +53,6 @@ public class Bairro {
 
 	public void setTaxaEntrega(double taxaEntrega) {
 		this.taxaEntrega = taxaEntrega;
-	}
-
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
 	}
 
 }

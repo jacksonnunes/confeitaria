@@ -12,5 +12,7 @@ public interface RepositorioPedido extends JpaRepository<Pedido, Long> {
 	List<Pedido> findByUsuario(Usuario usuario);
 	
 	Pedido findByUsuarioAndStatus(Usuario usuario, String status);
+	
+	List<Pedido> findByStatusNot(String status);
 
 }

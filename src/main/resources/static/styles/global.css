@@ -1,12 +1,13 @@
 :root {
 	font-size: 60%;
-	--color-background: #E8A9C5;
-	--color-primary-lighter: #DEBADC;
-	--color-primary-light:#B663B0;
-	--color-primary: #8B4186;
-	--color-primary-dark: #52274F;
-	--color-primary-darker: #341832;
-	--color-text-primary: #C93678;
+	--color-background-lighter: #F5E5BC;
+	--color-background-light: #E6BC53;
+	--color-background: #DAA520;
+	--color-background-button: #255ADF;
+	--color-background-item: #F1F1F1;
+	--color-primary: #000080;
+	--color-black: #000000;
+	--color-white: #FFFFFF;
 }
 
 * {
@@ -34,6 +35,30 @@ textarea {
 	font: 500 1.6rem 'Roboto';
 }
 
+.d-flex {
+	display: flex;
+}
+
+.align-items-start {
+	align-items: flex-start;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.justify-content-start {
+	justify-content: flex-start;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+
+.text-center {
+	text-align: center;
+}
+
 .container {
 	width: 90vw;
 	max-width: 700px;
@@ -42,20 +67,17 @@ textarea {
 #page-landing {
 	width: 100vw;
 	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--color-text-primary);
+	color: var(--color-primary);
 	background: var(--color-background);
 }
 
 .logo-container {
-	text-align: center;
+	margin-top: 2.0rem;
 	margin-bottom: 3.2rem;
 }
 
 .logo-container img {
-	height: 10rem;
+	height: 8rem;
 }
 
 .logo-container h2 {
@@ -71,8 +93,6 @@ textarea {
 }
 
 .buttons-container {
-	display: flex;
-	justify-content: center;
 	margin: 3.2rem 0;
 }
 
@@ -81,12 +101,9 @@ textarea {
 	height: 10.4rem;
 	border-radius: 0.8rem;
 	font: 700 1.8rem Archivo;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	text-decoration: none;
 	color: #FFFFFF;
-	background-color: var(--color-primary);
+	background-color: var(--color-background-button);
 	transition: all 0.2s ease;
 }
 
@@ -95,8 +112,9 @@ textarea {
 }
 
 .buttons-container a:hover {
-	background-color: var(--color-primary-dark);
-	transform: scale(1.1);
+	background-color: var(--color-primary);
+	box-shadow: 2px 2px 8px var(--color-black);
+	transform: scale(1.05);
 }
 
 .buttons-container a img {
@@ -126,6 +144,7 @@ textarea {
 	}
 	.imagem-logo {
 		grid-area: imagem;
+		max-width: 90%;
 		justify-content: flex-start;
 	}
 	.buttons-container {

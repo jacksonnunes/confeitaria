@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,23 +49,56 @@ public class ProdutoController {
 
 		// Pegando a quantidade de itens para exibir no carrinho
 		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
-		resultado.addObject("quantidadeDeItens", pedido.getItem().size());
+		if (pedido != null) {
+			resultado.addObject("quantidadeDeItens", pedido.getItens().size());
+		}
+		return resultado;
+	}
+	
+	@GetMapping("/adm/listar")
+	public ModelAndView admListar() {
+		ModelAndView resultado = new ModelAndView("produtos/adm-listar");
+		resultado.addObject("produtos", repositorioProduto.findAll());
+		resultado.addObject("categorias", repositorioCategoria.findAll(Sort.by(Sort.Direction.ASC, "nome")));
 		return resultado;
 	}
 
-	@GetMapping("/cadastrar")
+	@GetMapping("/adm/cadastrar")
 	public ModelAndView cadastrar() {
 		ModelAndView resultado = new ModelAndView("produtos/cadastrar");
 		resultado.addObject("produto", new Produto());
+		resultado.addObject("categorias", repositorioCategoria.findAll(Sort.by(Sort.Direction.ASC, "nome")));
 		return resultado;
 	}
 
-	@PostMapping("/cadastrar")
+	@PostMapping("/adm/cadastrar")
 	public String cadastrar(@Valid Produto produto, BindingResult result) {
 		if (result.hasErrors())
 			return "produtos/cadastrar";
 		repositorioProduto.save(produto);
-		return "redirect:/produtos/lista";
+		return "redirect:/produtos/adm/listar";
+	}
+	
+	@GetMapping("/adm/alterar/{id}")
+	public ModelAndView alterar(@PathVariable Long id) {
+		ModelAndView resultado = new ModelAndView("produtos/alterar");
+		resultado.addObject("produto", repositorioProduto.getOne(id));
+		resultado.addObject("categorias", repositorioCategoria.findAll(Sort.by(Sort.Direction.ASC, "nome")));
+		return resultado;
+	}
+	
+	@PostMapping("/adm/alterar")
+	public String alterar(@Valid Produto produto, BindingResult result) {
+		if (result.hasErrors())
+			return "produtos/cadastrar";
+		repositorioProduto.save(produto);
+		return "redirect:/produtos/adm/listar";
+	}
+	
+	@PostMapping("/adm/excluir/{id}")
+	public String excluir(@PathVariable Long id) {
+		repositorioProduto.deleteById(id);
+		return "redirect:/produtos/adm/listar";
 	}
 
 }

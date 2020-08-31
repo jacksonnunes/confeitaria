@@ -43,7 +43,9 @@ public class ItemPedidoController {
 		
 		//Pegando a quantidade de itens para exibir no carrinho
 		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
-		resultado.addObject("quantidadeDeItens", pedido.getItem().size());
+		if (pedido != null) {
+			resultado.addObject("quantidadeDeItens", pedido.getItens().size());
+		}
 		return resultado;
 	}
 	
@@ -63,7 +65,7 @@ public class ItemPedidoController {
 			pedido.setStatus("pendente");
 		}
 		
-		pedido.getItem().add(item);
+		pedido.getItens().add(item);
 		repositorioPedido.save(pedido);
 		
 		return "redirect:/produtos/lista";

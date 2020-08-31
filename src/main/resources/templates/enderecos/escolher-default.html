@@ -9,13 +9,6 @@
 	<div th:replace="fragmentos/fragmentos :: header"></div>
 	<div class="container">
 	
-		<div class="m-3">
-			<a class="btn btn-info" th:href="@{/endereco/cadastrar}">
-				Cadastrar novo endereço
-				<img class="ml-2" src="/imagens/icons/mail-outline.svg">
-			</a>
-		</div>
-	
 		<div class="container-flex align-items-start">
 			<div class="d-flex flex-wrap justify-content-center m-4">
 				<div class="col-lg-5 col-md-8 col-sm-12 rounded shadow m-2 " th:each="endereco: ${enderecos}">
@@ -25,14 +18,7 @@
 						<p class="m-0" th:text="'CEP: ' + ${endereco.cep}"></p>
 						<p th:text="(${endereco.referencia} != '' ? ${endereco.referencia} : '')"></p>
 						<div class="d-flex justify-content-end my-2">
-							<a class="btn btn-primary mx-2 d-flex align-items-center" th:href="@{/endereco/alterar/{id}(id=${endereco.id})}">
-								Alterar
-								<img class="ml-2" src="/imagens/icons/refresh.svg">
-							</a>
-							<a class="btn btn-danger d-flex align-items-center" th:href="@{/endereco/excluir/{id}(id=${endereco.id})}">
-								Excluir
-								<img class="ml-1" src="/imagens/icons/delete-outline.svg">
-							</a>
+							<a class="btn btn-primary mx-2" th:href="@{/endereco/escolherDefault/{id}(id=${endereco.id})}">Escolher como principal</a>
 						</div>
 					</div>
 				</div>

@@ -10,20 +10,20 @@
 </head>
 <body>
 
-	<div id="page-landing">
+	<div id="page-landing" class="d-flex justify-content-center align-items-center">
 		<div id="page-landing-content" class="container">
-			<div class="logo-container">
+			<div class="logo-container text-center">
 				<img alt="Rivoli Confeitaria" src="/imagens/logos/logo.svg" />
 				<h2>Adoce a vida com amor</h2>
 			</div>
 			<img class="imagem-logo" alt="Rivoli Confeitaria" src="/imagens/logos/homeimage.svg">
 			
-			<div class="buttons-container">
-				<a th:href="@{/usuario/sign-in}">
+			<div class="buttons-container d-flex justify-content-center">
+				<a class="d-flex justify-content-center align-items-center" th:href="@{/usuario/sign-in}">
 					<img alt="Cadastre-se" src="/imagens/icons/cadastre-se.svg" />
 					CADASTRE-SE
 				</a>
-				<a th:href="@{/login}">
+				<a class="d-flex justify-content-center align-items-center" th:href="@{/login}">
 					<img alt="Entrar" src="/imagens/icons/entrar.svg" />
 					ENTRAR
 				</a>

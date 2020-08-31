@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.confeitaria.domains.Usuario;
+import br.com.confeitaria.repositories.RepositorioEndereco;
 import br.com.confeitaria.repositories.RepositorioRole;
 import br.com.confeitaria.repositories.RepositorioUsuario;
 
@@ -27,6 +30,8 @@ public class UsuarioController {
 	private RepositorioUsuario repositorioUsuario;
 	@Autowired
 	private RepositorioRole repositorioRole;
+	@Autowired
+	private RepositorioEndereco repositorioEndereco;
 	
 	@GetMapping("/sign-in")
 	public ModelAndView cadastrar() {
@@ -50,6 +55,38 @@ public class UsuarioController {
 		usuario.setRole(repositorioRole.findByRole("ROLE_USER"));
 		repositorioUsuario.save(usuario);		
 		return "redirect:/login";
+	}
+	
+	@GetMapping("/dados-pessoais")
+	public ModelAndView dadosPessoais() {
+		ModelAndView resultado = new ModelAndView("usuarios/dados-pessoais");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Usuario usuario = repositorioUsuario.findByEmail(username);
+		
+		resultado.addObject("usuario", usuario);
+		resultado.addObject("endereco", repositorioEndereco.findByUsuarioAndEnderecoDefault(usuario, "default"));
+		return resultado;
+	}
+	
+	@GetMapping("/atualizar-dados")
+	public ModelAndView atualizarDados() {
+		ModelAndView resultado = new ModelAndView("usuarios/dados-pessoais-alterar");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Usuario usuario = repositorioUsuario.findByEmail(username);
+		
+		resultado.addObject("usuario", usuario);
+		return resultado;
+	}
+	
+	@PostMapping("/atualizar-dados")
+	public String atualizarDados(@Valid Usuario usuario, BindingResult result) {
+		if(result.hasErrors())
+			return "usuarios/dados-pessoais-alterar";
+		
+		repositorioUsuario.save(usuario);
+		return "redirect:/usuario/dados-pessoais";
 	}
 
 }

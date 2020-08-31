@@ -11,6 +11,6 @@ public interface RepositorioEndereco extends JpaRepository<Endereco, Long> {
 	
 	List<Endereco> findByUsuario(Usuario usuario);
 	
-	Endereco findByEnderecoDefault(String palavra);
+	Endereco findByUsuarioAndEnderecoDefault(Usuario usuario, String palavra);
 
 }

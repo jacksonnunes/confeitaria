@@ -2,12 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Rivoli Confeitaria | Menu</title>
+<title>Rivoli Confeitaria | Pedidos</title>
 <link href="/styles/page-pedidos-listar.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/maskmoney.min.js"></script>
 </head>
 <body>
 
@@ -27,11 +28,13 @@
 					</a>
 				</div>
 			</div>
-			<form class="formulario" action="/finalizar-pedido" method="post" th:object="${pedido}">
+			<form class="formulario" th:action="@{/pedidos/finalizar-pedido}" method="post" th:object="${pedido}">
 				<input type="hidden" th:field="*{id}" />
+				<input type="hidden" th:field="*{usuario.id}" />
+				<input type="hidden" th:field="*{itens}" />
 				
 				<div class="pedidos-content">
-					<div class="itens" th:each="item: ${pedido.item}">
+					<div class="itens" th:each="item: ${pedido.itens}">
 						<p class="produto-nome" th:text="${item.produto.nome}" />
 						<p class="quantidade" th:text="${item.quantidade} + ' x R$ ' + ${#numbers.formatDecimal(item.produto.valor, 0, 'POINT', 2, 'COMMA')}" />
 						<p class="valor-total" th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.produto.valor, 0, 'POINT', 2, 'COMMA')}" />
@@ -60,7 +63,8 @@
 				
 				<div class="dinheiro">
 					<label for="dinheiro">Troco para:</label>
-					<input type="text" id="dinheiro" th:field="*{dinheiro}" />
+					<input type="text" id="dinheiro" th:field="*{dinheiro}" placeholder="R$ 0,00" />
+					<p class="text-danger" th:if="${#fields.hasErrors('dinheiro')}" th:errors="*{dinheiro}"></p>
 				</div>
 				
 				<div class="informacoes-finais">
@@ -68,14 +72,14 @@
 						<p>Subtotal:</p>
 						<p th:text="'R$ ' + ${#numbers.formatDecimal(pedido.valorTotal, 0, 'POINT', 2, 'COMMA')}" />
 					</div>
-					<div class="taxa-entrega">
+					<div class="taxa-entrega" th:object="${endereco}">
 						<p>Taxa de entrega:</p>
-						<p th:text="'R$ ' + ${#numbers.formatDecimal(pedido.endereco.bairro.taxaEntrega, 0, 'POINT', 2, 'COMMA')}" />
+						<p id="taxaentrega" th:if="${taxaentrega}" th:text="'R$ ' + ${#numbers.formatDecimal(taxaentrega, 0, 'POINT', 2, 'COMMA')}" />
 					</div>
 					<div class="valor-final">
 						<p>Total:</p>
 						<p id="valorfinal" th:text="'R$ ' + ${#numbers.formatDecimal(valorcomtaxa, 0, 'POINT', 2, 'COMMA')}" />
-						<input type="hidden" th:field="*{valorTotal}" />
+						<input id="valortotal" type="hidden" th:field="*{valorTotal}" />
 					</div>
 				</div>
 				
@@ -87,7 +91,7 @@
 				
 				<div class="buttons-container">
 					<a th:href="@{/produtos/lista}">Continuar comprando<img src="/imagens/icons/cesta.svg" alt="Continuar comprando" /></a>
-					<button type="submit">Finalizar pedido<img src="/imagens/icons/ok.svg" alt="Continuar comprando" /></button>
+					<button type="submit" id="submit">Finalizar pedido<img src="/imagens/icons/ok.svg" alt="Continuar comprando" /></button>
 				</div>
 				
 			</form>
@@ -97,24 +101,88 @@
 	<script>
 	//Função para não deixar o usuário escolher uma quantidade maior que a disponível
 	$(document).ready(function(){
-		$("#quantidade").keyup(function() {
-			var max = $("#quantidade").attr('max');
-			var valor = $("#quantidade").val().trim();
-			
-			if(valor > max) {
-				$("#quantidade").val(max);
+		var entrega = $('#entrega option:selected').text();
+		var pagamento = $('#pagamento option:selected').text();
+		if (entrega == 'Balcão') {
+			$('.endereco-entrega').hide();
+			$('.taxa-entrega').hide();
+			//Retira o valor da taxa de entrega do valor total
+			var str = $('#valorfinal').text();
+			var valor = str.split(' ');
+			var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+			var str2 = $('#taxaentrega').text();
+			var valor2 = str2.split(' ');
+			var valorTaxa = parseFloat(valor2[1]).toFixed(2).replace(',', '.');
+			var valorAtual = valorTotal - valorTaxa;
+			$('#valorfinal').text('R$ ' + parseFloat(valorAtual).toFixed(2).replace('.', ','));
+		}
+		if (pagamento == 'Cartão') {
+			$('.dinheiro').hide();
+		}
+		
+		//Limpando o input "Troco para:"
+		$('#dinheiro').val('');
+		
+		//Ao mudar a forma de entrega, mostra ou não o endereço de entrega
+		$('#entrega').on('change', function(){
+			if ($('#entrega option:selected').text() == 'Balcão') {
+				$('.endereco-entrega').hide();
+				$('.taxa-entrega').hide();
+				//Retira o valor da taxa de entrega do valor total
+				var str = $('#valorfinal').text();
+				var valor = str.split(' ');
+				var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+				var str2 = $('#taxaentrega').text();
+				var valor2 = str2.split(' ');
+				var valorTaxa = parseFloat(valor2[1]).toFixed(2).replace(',', '.');
+				var valorAtual = valorTotal - valorTaxa;
+				$('#valorfinal').text('R$ ' + parseFloat(valorAtual).toFixed(2).replace('.', ','));
+			} else {
+				$('.endereco-entrega').show();
+				$('.taxa-entrega').show();
+				//Adiciona o valor da taxa de entrega ao valor total
+				var str = $('#valorfinal').text();
+				var valor = str.split(' ');
+				var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+				var str2 = $('#taxaentrega').text();
+				var valor2 = str2.split(' ');
+				var valorTaxa = parseFloat(valor2[1]).toFixed(2).replace(',', '.');
+				var valorAtual = (parseFloat(valorTotal) + parseFloat(valorTaxa)).toFixed(2);
+				$('#valorfinal').text('R$ ' + parseFloat(valorAtual).toFixed(2).replace('.', ','));
 			}
-		})
-	})
-	
-	var str = $('#valor').html();
-	var valor = str.split(" ");
-	//Função para alterar o valor quando o usuário altera a quantidade
-	$(document).ready(function(){
-		$('#quantidade').bind('keyup mouseup', function(){
-			var qtde = $('#quantidade').val().trim();
-			$('#valor').text('R$ ' + (parseFloat(valor[1]) * qtde).toFixed(2).replace('.', ','));
-		})
+		});
+		
+		//Ao mudar a forma de pagamento, mostra ou não o campo "Troco para:"
+		$('#pagamento').on('change', function(){
+			if ($('#pagamento option:selected').text() == 'Cartão') {
+				$('#dinheiro').val('');
+				$('.dinheiro').hide();
+			} else {
+				$('.dinheiro').show();
+			}
+		});
+		
+		//Adicionando a máscara de dinheiro ao input "Troco para:"
+		$('#dinheiro').maskMoney({
+			prefix: "R$ ",
+			decimal: ",",
+			thousands: "."
+		});
+		
+		//Ao submeter, a máscara do input "Troco para:" é tratada para valores no formato #,###.##
+		$('form.formulario').on('submit', function(){
+			var str = $('#valorfinal').text();
+			var valor = str.split(' ');
+			var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+			if ($('#dinheiro').val() == '') {
+				$('#dinheiro').val(parseFloat(valorTotal).toFixed(2));
+			} else {
+				var str = $('#dinheiro').val();
+				var valor = str.split(' ');
+				$('#dinheiro').val(parseFloat(valor[1]).toFixed(2).replace(',', '.'));
+			}
+			$('#valortotal').val(parseFloat(valorTotal).toFixed(2));
+		});
 	})
 	</script>
 	

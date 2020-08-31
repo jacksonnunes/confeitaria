@@ -328,7 +328,7 @@ textarea {
 	margin-left: 0.8rem;
 }
 
-@media (min-width: 1130px) {
+@media (min-width: 1125px) {
 	.formulario {
 		display: grid;
 		grid-template-areas:
@@ -344,10 +344,14 @@ textarea {
 	
 	.pedidos-content {
 		grid-area: itens;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
 	}
 	
 	.seletores {
 		grid-area: seletores;
+		margin-top: 0;
 	}
 	
 	.endereco-entrega {

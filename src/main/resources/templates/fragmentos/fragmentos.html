@@ -1,98 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR"
-	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <title>Rivoli Confeitaria</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-	crossorigin="anonymous">
-<link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
-<link href="/fontawesome/css/brands.css" rel="stylesheet">
-<link href="/fontawesome/css/solid.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header">
-		<a class="navbar-brand" th:href="@{/home}">Logomarca</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" th:href="@{/home}">Página inicial
-						<span class="sr-only">(current)</span>
-					</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/produtos/lista}">Menu</a></li>
-				<li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Pedidos </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-						<a class="dropdown-item" th:href="@{/pedidos/listar}">Meus Pedidos</a> 
-						<a class="dropdown-item" href="#">Another action</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Something else here</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Configurações </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-						<a class="dropdown-item" href="#">Conta</a>
-						<a class="dropdown-item" th:href="@{/endereco/listar}">Endereços</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown" th:if="${#authorization.expression('hasAuthority(''ADMIN_MASTER'')')}">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Administrativo </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-						<a class="dropdown-item" href="#">Pedidos pendentes</a>
-						<a class="dropdown-item" href="#">Pedidos concluídos</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" th:href="@{/produtos/cadastrar}">Incluir novo produto</a>
-						<a class="dropdown-item" href="#">Alterar produto</a>
-						<a class="dropdown-item" href="#">Excluir produto</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Vendas realizadas</a>
-					</div>
-				</li>
-			</ul>
-			<div th:if="${#authorization.expression('!isAuthenticated()')}" class="form-inline my-2 my-lg-0">
-				<a th:href="@{/login}" class="btn btn-success">Entrar</a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="/produtos/lista">Início
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="/pedidos/meus-pedidos">Pedidos</a></li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Conta
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/usuario/dados-pessoais">Dados Pessoais</a>
+							<a class="dropdown-item" href="/endereco/listar">Endereços</a>
+<!-- 							<div class="dropdown-divider"></div> -->
+<!-- 							<a class="dropdown-item" href="#">Something else here</a> -->
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Administrativo
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/pedidos/adm/pedidos-pendentes">Pedidos pendentes</a>
+							<a class="dropdown-item" href="/produtos/adm/listar">Produtos</a>
+							<a class="dropdown-item" href="#">Controle de Vendas</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
 			</div>
-			<div th:if="${#authorization.expression('isAuthenticated()')}" class="form-inline my-2 my-lg-0 mx-3">
-				<span th:text="'Olá, ' + ${#authentication.getPrincipal().getUsername()}"></span>
-			</div>
-			<div th:if="${#authorization.expression('isAuthenticated()')}" class="form-inline my-2 my-lg-0">
-				<a th:href="@{/logout}" class="btn btn-outline-dark">Sair</a>
-			</div>
-		</div>
-	</nav>
-	
-	<!-- Carrinho de compras -->
-	<div class="d-flex justify-content-end m-3" th:fragment="carrinho">
-		<a th:href="@{/item-pedido/listar}"><h4 class="text-primary"><i class="fas fa-shopping-cart"></i></h4></a>
-	</div>
+		</nav>
+	</header>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

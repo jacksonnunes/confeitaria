@@ -1,5 +1,6 @@
 package br.com.confeitaria.controllers;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,17 +97,6 @@ public class PedidoController {
 			repositorioProduto.save(produto);
 		}
 
-		// Se o pedido for pago com cartão, o dinheiro para troco será 0;
-		// Caso a opção de pagamento seja dinheiro e o cliente digitar o troco menor que
-		// o valor total, voltará a tela com erro
-
-		// Se o pedido for para pegar no balcão, o endereço será nulo
-		if (pedido.getEntrega().getFormaEntrega().equals("Balcão"))
-			pedido.setEndereco(null);
-		// Se o pagamento for por cartão, o valor para troco fica zerado
-		if (pedido.getPagamento().getFormaPagamento().equals("Cartão"))
-			pedido.setDinheiro(0.0);
-
 		pedido.setStatus("aguardando confirmação");
 		pedido.setDataPedido(new Date());
 
@@ -127,10 +117,10 @@ public class PedidoController {
 			resultado = new ModelAndView("home/login");
 			return resultado;
 		}
-		
-		List<Pedido> pedidos = repositorioPedido.findByUsuario(usuario); 
-		
-		//Separando os pedidos pendentes
+
+		List<Pedido> pedidos = repositorioPedido.findByUsuarioAndStatusNot(usuario, "pendente");
+
+		// Separando os pedidos pendentes
 		List<Pedido> pedidosPendentes = new LinkedList<Pedido>();
 		for (Pedido p : pedidos) {
 			if (p.getStatus() != "entregue") {
@@ -142,25 +132,55 @@ public class PedidoController {
 		resultado.addObject("pedidos", pedidos);
 		return resultado;
 	}
-	
+
 	@GetMapping("/adm/pedidos-pendentes")
 	public ModelAndView pedidosPendentes() {
 		ModelAndView resultado = new ModelAndView("pedidos/pedidos-pendentes");
-		resultado.addObject("pedidos", repositorioPedido.findByStatusNot("entregue"));
+		List<String> statusNotIn = new LinkedList<String>();
+		statusNotIn.add("entregue");
+		statusNotIn.add("pendente");
+		resultado.addObject("pedidos", repositorioPedido.findByStatusNotIn(statusNotIn));
 		return resultado;
 	}
-	
-	@GetMapping("/alterar-status/{id}")
+
+	@GetMapping("/adm/alterar-status/{id}")
 	public ModelAndView alterarStatus(@PathVariable Long id) {
 		ModelAndView resultado = new ModelAndView("pedidos/alterar-status");
-		resultado.addObject("pedido", repositorioPedido.getOne(id));		
+		resultado.addObject("pedido", repositorioPedido.getOne(id));
 		return resultado;
 	}
-	
-	@PostMapping("/alterar-status")
+
+	@PostMapping("/adm/alterar-status")
 	public String alterarStatus(Pedido pedido) {
+		if (pedido.getStatus().equals("entregue"))
+			pedido.setDataEntrega(new Date());
 		repositorioPedido.save(pedido);
 		return "redirect:/pedidos/adm/pedidos-pendentes";
+	}
+
+	@GetMapping("/adm/vendas")
+	public ModelAndView vendas() {
+		ModelAndView resultado = new ModelAndView("pedidos/vendas");
+		Calendar c = Calendar.getInstance();
+		Date dataInicial = new Date();
+		c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
+		dataInicial = c.getTime();
+		// Selecionando os pedidos entregues no mês corrente
+		List<Pedido> pedidos = repositorioPedido.findByStatusAndDataEntregaBetween("entregue", dataInicial, new Date());
+
+		int totalDeVendas = 0;
+		double valorArrecadado = 0.0;
+		for (Pedido pedido : pedidos) {
+			totalDeVendas++;
+			valorArrecadado += pedido.getValorTotal();
+		}
+
+		resultado.addObject("totaldevendas", totalDeVendas);
+		resultado.addObject("valorarrecadado", valorArrecadado);
+		resultado.addObject("datainicial", dataInicial);
+		resultado.addObject("datafinal", new Date());
+
+		return resultado;
 	}
 
 }

@@ -3,68 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Rivoli Confeitaria | Menu</title>
-<link href="/styles/page-produtos-listar.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-	<div class="produtos-page">
-		<div class="container">
-<!-- 		<div th:replace="fragmentos/fragmentos :: header"></div> -->
-			<nav class="menu">
-				<div class="title">
-					<h2>Menu</h2>
-				</div>
-				<div class="icons">
-					<span class="quantidade-de-itens" th:if="${quantidadeDeItens}" th:text="${quantidadeDeItens}"></span>
-					<a th:href="@{/pedidos/listar}">
-						<img src="/imagens/icons/cart.svg" alt="Carrinho"/>
-					</a>
-					<a class="menu-mobile" href="#">
-						<img src="/imagens/icons/dots.svg" alt="Menu"/>
-					</a>
-					<div class="collapse">
-						<ul class="navbar-menu">
-							<li class="navbar-item">
-								<a class="menu-item" th:href="@{/pedidos/meus-pedidos}">Pedidos</a>
-<!-- 								<div class="dropdown-item"> -->
-<!-- 									<a class="item" href="#">Meus pedidos</a> -->
-<!-- 									<a class="item" href="#">Pedidos pendentes</a> -->
-<!-- 								</div> -->
-							</li>
-							<li class="navbar-item">
-								<a class="menu-item" href="#">Conta</a>
-								<div class="dropdown-item">
-									<a class="item" href="#">Dados pessoais</a>
-									<a class="item" href="#">Endereços</a>
-								</div>
-							</li>
-							<li class="navbar-item">
-								<a class="menu-item" href="#">Administrativo</a>
-								<div class="dropdown-item">
-									<a class="item" href="#">Pedidos pendentes</a>
-									<a class="item" href="#">Produtos</a>
-									<a class="item" href="#">Controle de Vendas</a>
-								</div>
-							</li>
-							<li class="navbar-item">
-								<a class="logout" href="/logout">Sair</a>
-							</li>
-						</ul>
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+	<div class="container">
+		<div class="d-flex justify-content-center align-items-start flex-wrap">
+			<div class="col-12 d-flex justify-content-center" th:each="categoria: ${categorias}" th:if="${categoria.getProdutos().size() > 0}">
+				<div class="p-0 col-lg-6 col-md-10 col-xs-12">
+					<div class="d-flex justify-content-start">
+						<h5 class="m-3" th:text="${categoria.nome}"></h5>
+						<img th:if="${categoria.nome} == 'Cupcakes'" src="/imagens/bakery/bolinho.svg" style="width: 30px" />
+						<img th:if="${categoria.nome} == 'Bolos'" src="/imagens/bakery/bolo.svg" style="width: 30px" />
+						<img th:if="${categoria.nome} == 'Brownies'" src="/imagens/bakery/chocolate.svg" style="width: 30px" />
 					</div>
-				</div>
-			</nav>
-			<div class="produtos-content">
-				<div th:each="categoria: ${categorias}" th:if="${categoria.getProdutos().size() > 0}">
-					<h2 class="categoria" th:text="${categoria.nome}"></h2>
-					<a class="produto" th:href="@{/item-pedido/comprar/{id}(id=${produto.id})}" th:each="produto: ${categoria.produtos}">
-						<img class="produto-imagem" src="/imagens/fotos/img.jpg" />
-						<h4 class="produto-nome" th:text="${produto.nome}"></h4>
-						<p class="produto-descricao" th:text="${produto.descricao}" />
-						<p class="produto-quantidade" th:text="'Qtde: ' + ${produto.quantidadeDisponivel}"/>
-						<p class="produto-valor" th:text="'R$ ' + ${#numbers.formatDecimal(produto.valor, 0, 'POINT', 2, 'COMMA')}" />
-					</a>
+					<div class="d-flex justify-content-start align-items-center m-1 p-3 rounded-lg shadow-sm" th:href="@{/item-pedido/comprar/{id}(id=${produto.id})}" th:each="produto: ${categoria.produtos}">
+						<img class="border rounded-lg" style="width: 120px; height: 120px;" th:src="@{/files/{filename}(filename=${produto.imagem})}" />
+						<div class="ml-3 vw-100">
+							<h6 class="produto-nome" th:text="${produto.nome}"></h6>
+							<p class="produto-descricao text-secondary" th:text="${produto.descricao}" />
+							<div class="d-flex justify-content-between align-items-center">
+								<p class="produto-quantidade" th:text="'Qtde: ' + ${produto.quantidadeDisponivel}"/>
+								<p class="produto-valor" style="font-size: 1.4rem" th:text="'R$ ' + ${#numbers.formatDecimal(produto.valor, 0, 'POINT', 2, 'COMMA')}" />
+							</div>
+							<div class="d-flex justify-content-end align-items-center">
+								<a class="btn btn-primary" th:classappend="${produto.quantidadeDisponivel} > 0 ? mr-2 : ''" href="#">
+									Encomendar
+									<img src="/imagens/icons/bookmark_border.svg" />
+								</a>
+								<a class="btn btn-success" th:href="@{/item-pedido/comprar/{id}(id=${produto.id})}" th:if="${produto.quantidadeDisponivel} > 0">
+									Comprar
+									<img src="/imagens/icons/add_shopping_cart.svg" />
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -92,6 +66,9 @@
 			});
 		});
 	</script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>

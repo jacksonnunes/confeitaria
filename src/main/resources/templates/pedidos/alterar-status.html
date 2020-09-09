@@ -19,7 +19,7 @@
 				<div>
 					<h5 class="m-2">Alterar status</h5>
 					<div id="pedido" class="vw-100 d-flex justify-content-start align-items-start m-2 bg-dark rounded-lg shadow-sm p-3 text-white" style="max-width: 430px">
-						<form class="form-horizontal vw-100" th:action="@{/pedidos/alterar-status}" method="post" th:object="${pedido}">
+						<form class="form-horizontal vw-100" th:action="@{/pedidos/adm/alterar-status}" method="post" th:object="${pedido}">
 							<input type="hidden" th:field="*{id}" />
 							<input type="hidden" th:field="*{itens}" />
 							<input type="hidden" th:field="*{dataPedido}" />

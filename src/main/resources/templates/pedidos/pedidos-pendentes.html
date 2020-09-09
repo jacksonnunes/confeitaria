@@ -24,8 +24,12 @@
 								<h6 class="numeropedido" th:text="'Pedido #' + ${pedido.id}"></h6>
 								<p th:text="${#dates.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}" />
 							</div>
-							<div>
+							<div class="d-flex justify-content-between align-items-start">
 								<p th:text="'Cliente: ' + ${pedido.usuario.apelido}" />
+								<div class="text-right">
+									<p class="m-0" th:text="'Telefone: ' + ${pedido.usuario.telefone}" />
+									<p th:text="'Email: ' + ${pedido.usuario.email}" />
+								</div>
 							</div>
 							<div id="itempedido" class="my-3">
 								<p class="mb-1" th:each="itempedido: ${pedido.itens}" 
@@ -50,7 +54,7 @@
 								<span class="pedido-icon" th:if="${pedido.status} == 'entregue'"><img style="width: 25px; height: 25px" src="/imagens/icons/ok.svg" /></span>
 							</div>
 							<div class="d-flex justify-content-end">
-								<a class="btn btn-light d-flex align-items-center" th:href="@{/pedidos/alterar-status/{id}(id=${pedido.id})}">
+								<a class="btn btn-light d-flex align-items-center" th:href="@{/pedidos/adm/alterar-status/{id}(id=${pedido.id})}">
 									<img class="mr-2" src="/imagens/icons/refresh-black.svg">
 									Atualizar status
 								</a>

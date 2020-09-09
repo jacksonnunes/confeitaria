@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria | Vendas</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body class="bg-light">
+	
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container">
+	
+		<div class="d-flex justify-content-center align-items-center flex-wrap">
+			<div class="bg-white rounded-lg shadow px-3 py-2 m-2">
+				<h5 class="m-1">Filtro: </h5>
+				<div class="d-flex justify-content-center align-items-center flex-wrap">
+					<div class="d-flex justify-content-end align-items-center flex-wrap">
+						<div class="d-flex justify-content-center align-items-center flex-wrap">
+							<label for="datainicial" class="mr-2">Data inicial: </label>
+							<div class="form-group">
+								<input id="datainicial" class="form-control" type="text" maxlength="10" name="data1" th:value="${#dates.format(datainicial, 'dd/MM/yyyy')}" />
+							</div>
+						</div>
+						<div class="d-flex justify-content-center align-items-center flex-wrap ml-3">
+							<label for="datafinal" class="mr-2">Data final: </label>
+							<div class="form-group">
+								<input id="datafinal" class="form-control" type="text" maxlength="10" name="data1" th:value="${#dates.format(datafinal, 'dd/MM/yyyy')}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="d-flex justify-content-center align-items-center flex-wrap">
+			<div class="bg-white rounded-lg shadow px-3 py-2 m-2">
+				<p th:text="'Total de vendas realizadas no período: ' + ${totaldevendas}" />
+				<p th:text="'Valor total das vendas: R$ ' + ${#numbers.formatDecimal(valorarrecadado, 0, 'POINT', 2, 'COMMA')}" />
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+</body>
+</html>

@@ -69,6 +69,9 @@ public class Pedido {
 	@Column(name = "ped_status")
 	private String status;
 	
+	@Column(name = "ped_modalidade")
+	private String modalidade;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_usr")
 	private Usuario usuario;
@@ -155,6 +158,14 @@ public class Pedido {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getModalidade() {
+		return modalidade;
+	}
+
+	public void setModalidade(String modalidade) {
+		this.modalidade = modalidade;
 	}
 
 	public Usuario getUsuario() {

@@ -52,6 +52,9 @@ public class Produto {
 	@JoinColumn(name = "cat_id")
 	private Categoria categoria;
 	
+	@Column(name = "pro_imagem")
+	private String imagem;
+	
 	public Produto() {
 		super();
 		this.categoria = new Categoria();
@@ -111,6 +114,14 @@ public class Produto {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 }

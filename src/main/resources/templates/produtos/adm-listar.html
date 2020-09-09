@@ -2,10 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Rivoli Confeitaria | Menu</title>
+<title>Rivoli Confeitaria | Lista de produtos</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -20,9 +18,14 @@
 			</div>
 			<div class="col-12 d-flex justify-content-center" th:each="categoria: ${categorias}" th:if="${categoria.getProdutos().size() > 0}">
 				<div class="p-0 col-lg-6 col-md-10 col-xs-12">
-					<h5 class="m-3" th:text="${categoria.nome}"></h5>
+					<div class="d-flex justify-content-start">
+						<h5 class="m-3" th:text="${categoria.nome}"></h5>
+						<img th:if="${categoria.nome} == 'Cupcakes'" src="/imagens/bakery/bolinho.svg" style="width: 30px" />
+						<img th:if="${categoria.nome} == 'Bolos'" src="/imagens/bakery/bolo.svg" style="width: 30px" />
+						<img th:if="${categoria.nome} == 'Brownies'" src="/imagens/bakery/chocolate.svg" style="width: 30px" />
+					</div>
 					<div class="d-flex justify-content-start align-items-center m-1 p-3 rounded-lg shadow-sm" th:href="@{/item-pedido/comprar/{id}(id=${produto.id})}" th:each="produto: ${categoria.produtos}">
-						<img class="border rounded-lg" style="width: 120px; height: 120px;" src="/imagens/fotos/img.jpg" />
+						<img class="border rounded-lg" style="width: 120px; height: 120px;" th:src="@{/files/{filename}(filename=${produto.imagem})}" />
 						<div class="ml-3 vw-100">
 							<h6 class="produto-nome" th:text="${produto.nome}"></h6>
 							<p class="produto-descricao text-secondary" th:text="${produto.descricao}" />

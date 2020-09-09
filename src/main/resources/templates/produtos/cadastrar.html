@@ -14,7 +14,7 @@
 		<div class="d-flex justify-content-center m-4">
 			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
 				<h4 class="my-4">Cadastro de produtos</h4>
-				<form id="formulario" action="/produtos/adm/cadastrar" method="post" th:object="${produto}">
+				<form id="formulario" action="/produtos/adm/cadastrar" method="post" th:object="${produto}" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group col-md-6">
 							<select class="form-control" th:field="*{categoria.id}">
@@ -43,12 +43,12 @@
 							<p class="text-danger" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></p>
 						</div>
 					</div>
-<!-- 					<div class="row"> -->
-<!-- 						<div class="form-group col-md-12"> -->
-<!-- 							<label for="imagem">Foto do produto:</label> -->
-<!-- 							<input type="file" name="file" id="imagem"> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label for="imagem">Foto do produto:</label>
+							<input type="file" name="file" id="imagem">
+						</div>
+					</div>
 					<div class="row">
 						<div class="form-group col-md-12 d-flex justify-content-end">
 							<button type="submit" class="btn btn-success">

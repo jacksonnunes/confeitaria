@@ -48,6 +48,13 @@
 	<script>
 	//Função para não deixar o usuário escolher uma quantidade maior que a disponível
 	$(document).ready(function(){
+		//Quando carregar o documento, verificará se existe um valor diferente de 1 no input "quantidade" e então calcula o valor total do pedido
+		var str = $('#valor').html();
+		var valor = str.split(' ');
+		var qtde1 = $('#quantidade').val().trim();
+		var valorAtual1 = valor[1].replace(',', '.');
+		$('#valor').text('R$ ' + (parseFloat(valorAtual1) * qtde1).toFixed(2).replace('.', ','));
+		
 		$("#quantidade").keyup(function() {
 			var max = $("#quantidade").attr('max');
 			var valor = $("#quantidade").val().trim();
@@ -55,17 +62,14 @@
 			if(valor > max) {
 				$("#quantidade").val(max);
 			}
-		})
-	})
-	
-	var str = $('#valor').html();
-	var valor = str.split(" ");
-	//Função para alterar o valor quando o usuário altera a quantidade
-	$(document).ready(function(){
+		});
+		
+		//Função para alterar o valor quando o usuário altera a quantidade
 		$('#quantidade').bind('keyup mouseup', function(){
 			var qtde = $('#quantidade').val().trim();
-			$('#valor').text('R$ ' + (parseFloat(valor[1]) * qtde).toFixed(2).replace('.', ','));
-		})
+			var valorAtual = valor[1].replace(',', '.');
+			$('#valor').text('R$ ' + (parseFloat(valorAtual) * qtde).toFixed(2).replace('.', ','));
+		});
 	})
 	</script>
 	

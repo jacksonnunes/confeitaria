@@ -32,6 +32,7 @@
 				<input type="hidden" th:field="*{id}" />
 				<input type="hidden" th:field="*{usuario.id}" />
 				<input type="hidden" th:field="*{itens}" />
+				<input type="hidden" th:field="*{modalidade}" />
 				
 				<div class="pedidos-content">
 					<div class="itens" th:each="item: ${pedido.itens}">
@@ -56,7 +57,7 @@
 				</div>
 				
 				<div class="endereco-entrega">
-					<input type="hidden" th:field="*{endereco.id}" />
+					<input id="endereco" type="hidden" th:field="*{endereco.id}" />
 					<p>Endereço de entrega</p>
 					<p th:text="${pedido.endereco.logradouro} + ', ' + ${pedido.endereco.numero}" />
 				</div>
@@ -101,6 +102,7 @@
 	<script>
 	//Função para não deixar o usuário escolher uma quantidade maior que a disponível
 	$(document).ready(function(){
+		
 		var entrega = $('#entrega option:selected').text();
 		var pagamento = $('#pagamento option:selected').text();
 		if (entrega == 'Balcão') {
@@ -109,10 +111,12 @@
 			//Retira o valor da taxa de entrega do valor total
 			var str = $('#valorfinal').text();
 			var valor = str.split(' ');
-			var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+			var valorFinalFloat = (valor[1]).replace(',', '.');
+			var valorTotal = parseFloat(valorFinalFloat).toFixed(2);
 			var str2 = $('#taxaentrega').text();
 			var valor2 = str2.split(' ');
-			var valorTaxa = parseFloat(valor2[1]).toFixed(2).replace(',', '.');
+			var valorTaxaFloat = (valor2[1]).replace(',', '.');
+			var valorTaxa = parseFloat(valorTaxaFloat).toFixed(2);
 			var valorAtual = valorTotal - valorTaxa;
 			$('#valorfinal').text('R$ ' + parseFloat(valorAtual).toFixed(2).replace('.', ','));
 		}
@@ -131,10 +135,12 @@
 				//Retira o valor da taxa de entrega do valor total
 				var str = $('#valorfinal').text();
 				var valor = str.split(' ');
-				var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+				var valorFinalFloat = (valor[1]).replace(',', '.');
+				var valorTotal = parseFloat(valorFinalFloat).toFixed(2);
 				var str2 = $('#taxaentrega').text();
 				var valor2 = str2.split(' ');
-				var valorTaxa = parseFloat(valor2[1]).toFixed(2).replace(',', '.');
+				var valorTaxaFloat = (valor2[1]).replace(',', '.');
+				var valorTaxa = parseFloat(valorTaxaFloat).toFixed(2);
 				var valorAtual = valorTotal - valorTaxa;
 				$('#valorfinal').text('R$ ' + parseFloat(valorAtual).toFixed(2).replace('.', ','));
 			} else {
@@ -143,10 +149,12 @@
 				//Adiciona o valor da taxa de entrega ao valor total
 				var str = $('#valorfinal').text();
 				var valor = str.split(' ');
-				var valorTotal = parseFloat(valor[1]).toFixed(2).replace(',', '.');
+				var valorFinalFloat = (valor[1]).replace(',', '.');
+				var valorTotal = parseFloat(valorFinalFloat).toFixed(2);
 				var str2 = $('#taxaentrega').text();
 				var valor2 = str2.split(' ');
-				var valorTaxa = parseFloat(valor2[1]).toFixed(2).replace(',', '.');
+				var valorTaxaFloat = (valor2[1]).replace(',', '.');
+				var valorTaxa = parseFloat(valorTaxaFloat).toFixed(2);
 				var valorAtual = (parseFloat(valorTotal) + parseFloat(valorTaxa)).toFixed(2);
 				$('#valorfinal').text('R$ ' + parseFloat(valorAtual).toFixed(2).replace('.', ','));
 			}
@@ -182,6 +190,10 @@
 				$('#dinheiro').val(parseFloat(valor[1]).toFixed(2).replace(',', '.'));
 			}
 			$('#valortotal').val(parseFloat(valorTotal).toFixed(2));
+			if ($('#pagamento option:selected').html() == 'Cartão') {
+				$('#dinheiro').val('0.0');
+			}
+			
 		});
 	})
 	</script>

@@ -41,7 +41,7 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="/pedidos/adm/pedidos-pendentes">Pedidos pendentes</a>
 							<a class="dropdown-item" href="/produtos/adm/listar">Produtos</a>
-							<a class="dropdown-item" href="#">Controle de Vendas</a>
+							<a class="dropdown-item" href="/pedidos/adm/vendas">Controle de Vendas</a>
 						</div>
 					</li>
 					<li class="nav-item">
@@ -50,7 +50,8 @@
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					<a class="btn btn-outline-light my-2 my-sm-0" th:href="@{/logout}" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
+					<a class="btn btn-outline-light my-2 my-sm-0" th:href="@{/login}" th:unless="${#authorization.expression('isAuthenticated()')}">Login</a>
 				</form>
 			</div>
 		</nav>

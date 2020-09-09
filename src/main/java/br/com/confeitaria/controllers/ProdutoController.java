@@ -1,5 +1,7 @@
 package br.com.confeitaria.controllers;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.confeitaria.domains.ItemPedido;
@@ -22,6 +26,7 @@ import br.com.confeitaria.repositories.RepositorioCategoria;
 import br.com.confeitaria.repositories.RepositorioPedido;
 import br.com.confeitaria.repositories.RepositorioProduto;
 import br.com.confeitaria.repositories.RepositorioUsuario;
+import br.com.confeitaria.services.StorageService;
 
 @Controller
 @RequestMapping("/produtos")
@@ -35,6 +40,8 @@ public class ProdutoController {
 	private RepositorioPedido repositorioPedido;
 	@Autowired
 	private RepositorioUsuario repositorioUsuario;
+	@Autowired
+	private StorageService storageService;
 
 	@GetMapping("/lista")
 	public ModelAndView listar() {
@@ -72,9 +79,13 @@ public class ProdutoController {
 	}
 
 	@PostMapping("/adm/cadastrar")
-	public String cadastrar(@Valid Produto produto, BindingResult result) {
+	public String cadastrar(@Valid Produto produto, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 		if (result.hasErrors())
 			return "produtos/cadastrar";
+		if (!file.isEmpty()) {
+			storageService.save(file);
+			produto.setImagem(file.getOriginalFilename());
+		}
 		repositorioProduto.save(produto);
 		return "redirect:/produtos/adm/listar";
 	}
@@ -88,14 +99,22 @@ public class ProdutoController {
 	}
 	
 	@PostMapping("/adm/alterar")
-	public String alterar(@Valid Produto produto, BindingResult result) {
+	public String alterar(@Valid Produto produto, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 		if (result.hasErrors())
-			return "produtos/cadastrar";
+			return "produtos/alterar";
+		if (!file.isEmpty() && produto.getImagem() != null) {
+			storageService.delete(produto.getImagem());
+			storageService.save(file);
+			produto.setImagem(file.getOriginalFilename());
+		} else if (!file.isEmpty()) {
+			storageService.save(file);
+			produto.setImagem(file.getOriginalFilename());
+		}
 		repositorioProduto.save(produto);
 		return "redirect:/produtos/adm/listar";
 	}
 	
-	@PostMapping("/adm/excluir/{id}")
+	@GetMapping("/adm/excluir/{id}")
 	public String excluir(@PathVariable Long id) {
 		repositorioProduto.deleteById(id);
 		return "redirect:/produtos/adm/listar";

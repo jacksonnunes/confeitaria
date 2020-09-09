@@ -34,18 +34,17 @@ public class ItemPedidoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Usuario usuario = repositorioUsuario.findByEmail(username);
+		//se usuário não estiver logado, redireciona para a página de login
+		if(usuario == null) {
+			ModelAndView resultado = new ModelAndView("home/login");
+			return resultado;
+		}
 		
 		ModelAndView resultado = new ModelAndView("item-pedido/comprar");
 		Produto produto = repositorioProduto.getOne(id);
 		ItemPedido itemPedido = new ItemPedido();
 		itemPedido.setProduto(produto);
 		resultado.addObject("itempedido", itemPedido);
-		
-		//Pegando a quantidade de itens para exibir no carrinho
-		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente");
-		if (pedido != null) {
-			resultado.addObject("quantidadeDeItens", pedido.getItens().size());
-		}
 		return resultado;
 	}
 	
@@ -54,6 +53,10 @@ public class ItemPedidoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Usuario usuario = repositorioUsuario.findByEmail(username);
+		//se usuário não estiver logado, redireciona para a página de login
+		if(usuario == null) {
+			return "redirect:/login";
+		}
 		
 		item.setUsuario(usuario);
 		
@@ -63,6 +66,53 @@ public class ItemPedidoController {
 			pedido = new Pedido();
 			pedido.setUsuario(usuario);
 			pedido.setStatus("pendente");
+			pedido.setModalidade("compra");
+		}
+		
+		pedido.getItens().add(item);
+		repositorioPedido.save(pedido);
+		
+		return "redirect:/produtos/lista";
+	}
+	
+	@GetMapping("/encomendar/{id}")
+	public ModelAndView encomendar(@PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Usuario usuario = repositorioUsuario.findByEmail(username);
+		//se usuário não estiver logado, redireciona para a página de login
+		if(usuario == null) {
+			ModelAndView resultado = new ModelAndView("home/login");
+			return resultado;
+		}
+		
+		ModelAndView resultado = new ModelAndView("item-pedido/encomendar");
+		Produto produto = repositorioProduto.getOne(id);
+		ItemPedido itemPedido = new ItemPedido();
+		itemPedido.setProduto(produto);
+		resultado.addObject("itempedido", itemPedido);
+		return resultado;
+	}
+	
+	@PostMapping("/encomendar")
+	public String encomendar(ItemPedido item) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Usuario usuario = repositorioUsuario.findByEmail(username);
+		//se usuário não estiver logado, redireciona para a página de login
+		if(usuario == null) {
+			return "redirect:/login";
+		}
+		
+		item.setUsuario(usuario);
+		
+		//Verificando se existe pedido pendente, caso contrário, cria um novo pedido
+		Pedido pedido = repositorioPedido.findByUsuarioAndStatus(usuario, "pendente-encomenda");
+		if (pedido == null) {
+			pedido = new Pedido();
+			pedido.setUsuario(usuario);
+			pedido.setStatus("pendente-encomenda");
+			pedido.setModalidade("encomenda");
 		}
 		
 		pedido.getItens().add(item);

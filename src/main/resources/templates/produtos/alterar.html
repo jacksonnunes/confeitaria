@@ -14,8 +14,9 @@
 		<div class="d-flex justify-content-center m-4">
 			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 rounded shadow-lg">
 				<h4 class="my-4">Atualizar produto</h4>
-				<form id="formulario" action="/produtos/adm/cadastrar" method="post" th:object="${produto}">
+				<form id="formulario" action="/produtos/adm/alterar" method="post" th:object="${produto}" enctype="multipart/form-data">
 					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:field="*{imagem}" />
 					<div class="row">
 						<div class="form-group col-md-6">
 							<select class="form-control" th:field="*{categoria.id}">
@@ -44,12 +45,12 @@
 							<p class="text-danger" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></p>
 						</div>
 					</div>
-<!-- 					<div class="row"> -->
-<!-- 						<div class="form-group col-md-12"> -->
-<!-- 							<label for="imagem">Foto do produto:</label> -->
-<!-- 							<input type="file" name="file" id="imagem"> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label for="imagem">Foto do produto:</label>
+							<input type="file" name="file" id="imagem">
+						</div>
+					</div>
 					<div class="row">
 						<div class="form-group col-md-12 d-flex justify-content-end">
 							<button type="submit" class="btn btn-success">
@@ -64,7 +65,11 @@
 	</div>
 	
 	<script type="text/javascript">
-		$(document).ready(function(){			
+		$(document).ready(function(){
+			var valor = $('#valor').val();
+			var num = (valor).replace('.', ',');
+			$('#valor').val('R$ ' + num);
+			
 			//Adicionando a máscara de dinheiro ao input "Valor unitário"
 			$('#valor').maskMoney({
 				prefix: "R$ ",

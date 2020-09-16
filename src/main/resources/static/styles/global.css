@@ -3,9 +3,9 @@
 	--color-background-lighter: #F5E5BC;
 	--color-background-light: #E6BC53;
 	--color-background: #DAA520;
-	--color-background-button: #255ADF;
+	--color-background-button: #4D8061;
 	--color-background-item: #F1F1F1;
-	--color-primary: #000080;
+	--color-primary: #396049;
 	--color-black: #000000;
 	--color-white: #FFFFFF;
 }
@@ -22,7 +22,7 @@ body {
 }
 
 body {
-	background-color: var(--color-background);
+	background-image: url('/imagens/bakery/bakery-wallpaper.jpg');
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -67,8 +67,7 @@ textarea {
 #page-landing {
 	width: 100vw;
 	height: 100vh;
-	color: var(--color-primary);
-	background: var(--color-background);
+	color: #123332;
 }
 
 .logo-container {
@@ -115,6 +114,10 @@ textarea {
 	background-color: var(--color-primary);
 	box-shadow: 2px 2px 8px var(--color-black);
 	transform: scale(1.05);
+}
+
+.buttons-container a:active {
+	background-color: var(--color-primary);
 }
 
 .buttons-container a img {

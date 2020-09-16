@@ -37,7 +37,7 @@
 				<a href="/endereco/escolherDefault">Alterar</a>
 			</div>
 			<hr>
-			<div class="m-3">
+			<div class="m-3" th:if="${endereco}">
 				<p class="m-0" th:text="${endereco.logradouro} + ', ' + ${endereco.numero} + (${endereco.complemento} != '' ? ' - ' + ${endereco.complemento} : '')"/>
 				<p class="m-0" th:text="${endereco.bairro} + ' - ' + ${endereco.cidade}" />
 				<p class="m-0" th:text="'CEP: ' + ${endereco.cep}" />

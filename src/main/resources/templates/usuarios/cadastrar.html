@@ -4,26 +4,21 @@
 <meta charset="UTF-8">
 <title>Rivoli Confeitaria | Cadastro de Usuário</title>
 <link href="/styles/page-cadastro.css" rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap"
-	rel="stylesheet">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 </head>
 <body>
 
+	<div class="background">
+		<img src="/imagens/logos/logo.svg" alt="Rivoli Confeitaria" />
+	</div>
 	<div class="page-cadastro">
 		<div class="page-cadastro-container">
 			<div class="saudacao">
-				<h2>Seja bem-vindo(a)!</h2>
+				<h2>Cadastre-se!</h2>
 			</div>
 			<div class="formulario">
 				<form action="/usuario/sign-in" method="post" th:object="${usuario}">

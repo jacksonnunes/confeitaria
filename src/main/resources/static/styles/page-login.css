@@ -1,10 +1,11 @@
 :root {
 	font-size: 60%;
-	--color-background: #E8A9C5;
+	--color-background-light: #999999;
+	--color-background: #666666;
 	--color-primary-lighter: #DEBADC;
 	--color-primary-light:#B663B0;
-	--color-primary: #8B4186;
-	--color-primary-dark: #52274F;
+	--color-primary: #634636;
+	--color-primary-dark: #523A2D;
 	--color-primary-darker: #341832;
 	--color-text-primary: #C93678;
 }
@@ -38,8 +39,17 @@ textarea {
 	color: var(--color-primary);
 }
 
+.background {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url('/imagens/bakery/bakery-wallpaper.jpg');
+	width: 50vw;
+	height: 100vh;
+}
+
 .login-page {
-	width: 100vw;
+	width: 50vw;
 	height: 100vh;
 	display: flex;
 	justify-content: center;
@@ -76,9 +86,9 @@ input[type=password] {
 	max-width: 400px;
 	padding: 1.2rem;
 	border: 0px;
-	border-radius: 0.5rem;
+	border-radius: 0.8rem;
 	background-color: #000000;
-	color: var(--color-background);
+	color: var(--color-background-light);
 	outline: none;
 }
 
@@ -88,7 +98,7 @@ input[type=password]:focus {
 }
 
 ::placeholder {
-	color: var(--color-primary);
+	color: var(--color-background-light);
 	opacity: 1; /* Firefox */
 }
 
@@ -119,10 +129,20 @@ input[type=password]:focus {
 
 .buttons-container button:hover {
 	background-color: var(--color-primary-dark);
-	transform: scale(1.1);
+	transform: scale(1.05);
 	box-shadow: 0px 2px 10px #000000;
+}
+
+.buttons-container button:active {
+	background-color: var(--color-primary-dark);
 }
 
 .buttons-container button img {
 	margin-left: 0.8rem;
+}
+
+@media (max-width: 900px) {
+	.background {
+		display: none;
+	}
 }

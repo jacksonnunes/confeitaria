@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Rivoli Confeitaria | Cadastrar bairro</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/maskmoney.min.js"></script>
+</head>
+<body class="bg-light">
+	
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+
+	<div class="container">
+	
+		<div class="d-flex justify-content-center align-items-center bg-white m-5 p-3 rounded shadow-sm">
+			<form class="formulario" action="/bairros/cadastrar" method="post" th:object="${bairro}">
+				<div class="row">
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{nome}" placeholder="Nome do bairro" />
+						<p class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<input type="text" id="taxa" class="form-control" th:field="*{taxaEntrega}" placeholder="Taxa de entrega" />
+						<p class="text-danger" th:if="${#fields.hasErrors('taxaEntrega')}" th:errors="*{taxaEntrega}"></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary" value="Salvar" />
+					</div>
+				</div>
+			</form>
+		</div>
+		
+	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#taxa').val('');
+			
+			//Adicionando a máscara de dinheiro ao input "Troco para:"
+			$('#taxa').maskMoney({
+				prefix: "R$ ",
+				decimal: ",",
+				thousands: "."
+			});
+			
+			$('form.formulario').on('submit', function(){
+				var str = $('#taxa').val();
+				var valor = str.split(' ');
+				var commaToDot = valor[1].replace(',', '.');
+				var valorTaxa = parseFloat(commaToDot).toFixed(2);
+				
+				$('#taxa').val(valorTaxa);
+			});
+		})
+	</script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+</body>
+</html>

@@ -64,7 +64,7 @@
 							<p class="text-danger" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"></p>
 						</div>
 						<div class="form-group col-md-5 col-sm-6 col-6">
-							<input type="text" class="form-control" th:field="*{cep}" minlength="9" maxlength="9" placeholder="CEP"/>
+							<input type="text" class="form-control" th:field="*{cep}" maxlength="9" placeholder="CEP"/>
 							<p class="text-danger" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></p>
 						</div>
 					</div>

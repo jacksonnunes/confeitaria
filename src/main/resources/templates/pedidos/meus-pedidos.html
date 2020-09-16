@@ -13,6 +13,13 @@
 	<div th:replace="fragmentos/fragmentos :: header"></div>
 
 	<div class="container">
+		
+		<div th:if="${pedidospendentes.size()} == 0">
+			<h5 class="m-3">Você ainda não possui pedidos.</h5>
+			<div class="d-flex justify-content-center">
+				<a class="btn btn-primary" href="/produtos/lista">De volta às compras!</a>
+			</div>
+		</div>
 	
 		<div class="d-flex justify-content-center align-items-start flex-wrap">
 			<div id="pedidos-pendentes" class="d-flex justify-content-center mw-100 m-3 vw-100" th:if="${pedidospendentes.size()} > 0">

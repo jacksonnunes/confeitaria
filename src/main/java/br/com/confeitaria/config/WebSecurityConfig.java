@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 				.authorizeRequests()
 				.antMatchers("/endereco/**").authenticated()
+				.antMatchers("/pedidos/adm/**", "/produtos/adm/**", "/bairros/**").hasAuthority("ADMIN_MASTER")
 				.anyRequest().permitAll()
 				.and()
 			.formLogin()

@@ -34,7 +34,7 @@
 <!-- 							<a class="dropdown-item" href="#">Something else here</a> -->
 						</div>
 					</li>
-					<li class="nav-item dropdown">
+					<li th:if="${#authorization.expression('hasAuthority(''ADMIN_MASTER'')')}" class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Administrativo
 						</a>
@@ -42,6 +42,7 @@
 							<a class="dropdown-item" href="/pedidos/adm/pedidos-pendentes">Pedidos pendentes</a>
 							<a class="dropdown-item" href="/produtos/adm/listar">Produtos</a>
 							<a class="dropdown-item" href="/pedidos/adm/vendas">Controle de Vendas</a>
+							<a class="dropdown-item" href="/bairros/listar">Bairros e Taxas</a>
 						</div>
 					</li>
 					<li class="nav-item">
@@ -50,7 +51,7 @@
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<a class="btn btn-outline-light my-2 my-sm-0" th:href="@{/logout}" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
+					<a class="btn btn-outline-light my-2 my-sm-0" th:href="@{/logout}" th:if="${#authorization.expression('isAuthenticated()')}">Sair</a>
 					<a class="btn btn-outline-light my-2 my-sm-0" th:href="@{/login}" th:unless="${#authorization.expression('isAuthenticated()')}">Login</a>
 				</form>
 			</div>

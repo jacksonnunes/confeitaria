@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.confeitaria.domains.Bairro;
@@ -180,6 +181,26 @@ public class PedidoController {
 		resultado.addObject("datainicial", dataInicial);
 		resultado.addObject("datafinal", new Date());
 
+		return resultado;
+	}
+	
+	@GetMapping("/adm/vendas/buscar")
+	public ModelAndView vendasBuscar(@RequestParam("datainicial") Date datainicial, @RequestParam("datafinal") Date datafinal) {		
+		ModelAndView resultado = new ModelAndView("pedidos/vendas");
+		
+		List<Pedido> pedidos = repositorioPedido.findByStatusAndDataEntregaBetween("entregue", datainicial, datafinal);
+		int totalDeVendas = 0;
+		double valorArrecadado = 0.0;
+		for (Pedido pedido : pedidos) {
+			totalDeVendas++;
+			valorArrecadado += pedido.getValorTotal();
+		}
+		
+		resultado.addObject("totaldevendas", totalDeVendas);
+		resultado.addObject("valorarrecadado", valorArrecadado);
+		resultado.addObject("datainicial", datainicial);
+		resultado.addObject("datafinal", datafinal);
+		
 		return resultado;
 	}
 
